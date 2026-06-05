@@ -53,7 +53,7 @@ powershell -ExecutionPolicy Bypass -File .\BraveControl.ps1
 
 > **⚠️ Nota**: La política `RemoteSigned` permite ejecutar scripts locales y scripts descargados de internet que estén firmados. Es más segura que `Unrestricted`.
 
-## � Políticas Disponibles
+## 🔐 Políticas Disponibles
 
 | Política | Descripción |
 |----------|-------------|
