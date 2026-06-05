@@ -1,14 +1,33 @@
-#Requires -Version 5.1
+﻿#Requires -Version 5.1
+
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+$OutputEncoding = [System.Text.Encoding]::UTF8
+chcp 65001 | Out-Null
+
+param(
+    [switch]$Bypass,
+    [switch]$Remote
+)
 
 # Elevacion a administrador
 if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
-    Start-Process powershell -Verb RunAs -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`""
-    exit
+    if ($Remote -or -not $PSCommandPath) {
+        # Ejecucion remota: descargar y ejecutar como admin
+        $url = "https://raw.githubusercontent.com/xdoofy92/BraveOrigins/main/BraveOrigins.ps1"
+        $scriptContent = Invoke-RestMethod -Uri $url
+        $tempFile = [System.IO.Path]::GetTempFileName() + ".ps1"
+        $scriptContent | Out-File $tempFile -Encoding UTF8
+        Start-Process powershell -Verb RunAs -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$tempFile`""
+        exit
+    } else {
+        Start-Process powershell -Verb RunAs -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`""
+        exit
+    }
 }
 
 Add-Type -AssemblyName System.Windows.Forms, System.Drawing
 
-# ── Constantes ────────────────────────────────────────────────────────────────
+# â”€â”€ Constantes â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 $REG_PATH  = "HKLM:\SOFTWARE\Policies\BraveSoftware\Brave"
 $APP_TITLE = "BraveOrigins"
@@ -25,15 +44,15 @@ $FONT_LABEL = [Drawing.Font]::new("Segoe UI", 8, [Drawing.FontStyle]::Bold)
 
 if (-not (Test-Path $REG_PATH)) { New-Item $REG_PATH -Force | Out-Null }
 
-# ── Policies ──────────────────────────────────────────────────────────────────
+# â”€â”€ Policies â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 $POLICIES = [ordered]@{
     "Leo (AI Chat)"              = @{ Key = "BraveAIChatEnabled";         Val = 0; T = "DWord" }
     "Noticias"                   = @{ Key = "BraveNewsDisabled";          Val = 1; T = "DWord" }
-    "Lista de reproducción"      = @{ Key = "BravePlaylistEnabled";       Val = 0; T = "DWord" }
+    "Lista de reproduccion"      = @{ Key = "BravePlaylistEnabled";       Val = 0; T = "DWord" }
     "Recompensas + Brave Ads"    = @{ Key = "BraveRewardsDisabled";       Val = 1; T = "DWord" }
-    "Lector rápido"              = @{ Key = "BraveSpeedreaderEnabled";    Val = 0; T = "DWord" }
-    "P3A (análisis de producto)" = @{ Key = "BraveP3AEnabled";            Val = 0; T = "DWord" }
+    "Lector rapido"              = @{ Key = "BraveSpeedreaderEnabled";    Val = 0; T = "DWord" }
+    "P3A (analisis de producto)" = @{ Key = "BraveP3AEnabled";            Val = 0; T = "DWord" }
     "Ping de uso diario"         = @{ Key = "BraveStatsPingEnabled";      Val = 0; T = "DWord" }
     "Hablar (Talk)"              = @{ Key = "BraveTalkDisabled";          Val = 1; T = "DWord" }
     "Tor"                        = @{ Key = "TorDisabled";                Val = 1; T = "DWord" }
@@ -44,7 +63,7 @@ $POLICIES = [ordered]@{
     "Alias de correo (Nightly)"  = @{ Key = "BraveEmailAliasesEnabled";   Val = 0; T = "DWord" }
 }
 
-# ── Helpers ───────────────────────────────────────────────────────────────────
+# â”€â”€ Helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function New-FlatButton {
     param([string]$Text, [Drawing.Point]$Pos, [Drawing.Size]$Size, [Drawing.Color]$Fg)
@@ -82,7 +101,7 @@ function Set-Policies {
 
 function Reset-Policies {
     $confirm = [Windows.Forms.MessageBox]::Show(
-        "Se eliminarán todas las políticas de Brave del registro.`n¿Continuar?",
+        "Se eliminaran todas las politicas de Brave del registro.`nÂ¿Continuar?",
         $APP_TITLE, "YesNo", "Warning")
     if ($confirm -ne "Yes") { return $false }
     try {
@@ -97,7 +116,7 @@ function Reset-Policies {
 
 function Export-Config {
     $dlg = [Windows.Forms.SaveFileDialog]::new()
-    $dlg.Title           = "Exportar configuración"
+    $dlg.Title           = "Exportar configuracion"
     $dlg.Filter          = "JSON (*.json)|*.json"
     $dlg.FileName        = "BraveOrigins-config.json"
     $dlg.InitialDirectory= [Environment]::GetFolderPath("MyDocuments")
@@ -113,7 +132,7 @@ function Export-Config {
 
 function Import-Config {
     $dlg = [Windows.Forms.OpenFileDialog]::new()
-    $dlg.Title           = "Importar configuración"
+    $dlg.Title           = "Importar configuracion"
     $dlg.Filter          = "JSON (*.json)|*.json"
     $dlg.InitialDirectory= [Environment]::GetFolderPath("MyDocuments")
     if ($dlg.ShowDialog() -ne "OK") { return }
@@ -129,7 +148,7 @@ function Import-Config {
     }
 }
 
-# ── UI ────────────────────────────────────────────────────────────────────────
+# â”€â”€ UI â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 $form = [Windows.Forms.Form]::new()
 $form.Text            = $APP_TITLE
@@ -157,7 +176,7 @@ $lblTitle.AutoSize  = $true
 $header.Controls.Add($lblTitle)
 
 $lblSub = [Windows.Forms.Label]::new()
-$lblSub.Text      = "Políticas de Brave vía registry"
+$lblSub.Text      = "Politicas de Brave via registry"
 $lblSub.Font      = [Drawing.Font]::new("Segoe UI", 8)
 $lblSub.ForeColor = $MUTED
 $lblSub.Location  = [Drawing.Point]::new(130, 18)
@@ -180,9 +199,9 @@ $sep.Size      = [Drawing.Size]::new(386, 1)
 $sep.BackColor = $BORDER
 $form.Controls.Add($sep)
 
-# Label de sección dentro del panel
+# Label de secciÃ³n dentro del panel
 $secLabel = [Windows.Forms.Label]::new()
-$secLabel.Text      = "CARACTERÍSTICAS A DESHABILITAR"
+$secLabel.Text      = "CARACTERISTICAS A DESHABILITAR"
 $secLabel.Font      = $FONT_LABEL
 $secLabel.ForeColor = $ACCENT
 $secLabel.Location  = [Drawing.Point]::new(12, 10)
@@ -236,18 +255,18 @@ $script:status.Font      = [Drawing.Font]::new("Segoe UI", 7.5)
 $script:status.Text      = "Listo."
 $form.Controls.Add($script:status)
 
-# ── Eventos ───────────────────────────────────────────────────────────────────
+# â”€â”€ Eventos â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 $btnApply.Add_Click({
     $active = @(Get-ActivePolicies)
     if ($active.Count -eq 0) {
-        $script:status.Text = "Ninguna política seleccionada."
+        $script:status.Text = "Ninguna politica seleccionada."
         return
     }
     $ok, $fail = Set-Policies
     if ($fail -eq 0) {
         $script:status.ForeColor = [Drawing.Color]::FromArgb(120,220,120)
-        $script:status.Text = "Aplicadas $ok políticas correctamente. Reinicia Brave."
+        $script:status.Text = "Aplicadas $ok politicas correctamente. Reinicia Brave."
     } else {
         $script:status.ForeColor = [Drawing.Color]::FromArgb(255,160,80)
         $script:status.Text = "$ok aplicadas, $fail fallaron."
@@ -262,7 +281,7 @@ $btnReset.Add_Click({
         foreach ($cb in $script:checks.Values) { $cb.Checked = $false }
         $script:chkAll.Checked = $false
         $script:status.ForeColor = $MUTED
-        $script:status.Text = "Todas las políticas eliminadas del registro."
+        $script:status.Text = "Todas las politicas eliminadas del registro."
     }
 })
 

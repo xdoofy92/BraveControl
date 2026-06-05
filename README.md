@@ -44,18 +44,49 @@ Herramienta gráfica de PowerShell para gestionar políticas del navegador Brave
 - Privilegios de administrador
 - Navegador Brave instalado
 
+### Configurar Política de Ejecución
+
+Si obtienes un error de "ejecución de scripts deshabilitada", tienes tres opciones:
+
+**Opción 1 - Usar el archivo .bat (recomendado):**
+```powershell
+.\BraveOrigins.bat
+```
+Este archivo ejecuta automáticamente el script con la política de ejecución necesaria.
+
+**Opción 2 - Cambiar política de ejecución (permanente para el usuario actual):**
+```powershell
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+```
+
+**Opción 3 - Ejecución temporal con Bypass:**
+```powershell
+powershell -ExecutionPolicy Bypass -File .\BraveOrigins.ps1
+```
+
+> **⚠️ Nota**: La política `RemoteSigned` permite ejecutar scripts locales y scripts descargados de internet que estén firmados. Es más segura que `Unrestricted`.
+
 ### Pasos de Instalación
 
-1. Clona el repositorio:
+**Opción 1 - Clonar el repositorio:**
 ```powershell
 git clone https://github.com/xdoofy92/BraveOrigins.git
 cd BraveOrigins
 ```
 
-2. Ejecuta el script:
+Luego ejecuta el script:
 ```powershell
-.\BraveOrigins.ps1
+.\BraveOrigins.bat
 ```
+
+**Opción 2 - Ejecución directa desde GitHub (sin clonar):**
+```powershell
+irm https://raw.githubusercontent.com/xdoofy92/BraveOrigins/main/BraveOrigins.ps1 | iex
+```
+
+> **⚠️ Nota**: Al ejecutar desde GitHub, el script se descargará y ejecutará automáticamente. Asegúrate de confiar en el código antes de ejecutarlo de esta manera.
+
+> **⚠️ Importante**: Debes usar `.\` antes del nombre del script. PowerShell no ejecuta scripts del directorio actual por defecto por seguridad. Si solo escribes `BraveOrigins.ps1` obtendrás un error de "comando no reconocido".
 
 El script solicitará elevación a administrador si no se está ejecutando con esos privilegios.
 
