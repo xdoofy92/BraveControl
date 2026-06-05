@@ -10,11 +10,10 @@ Herramienta gráfica de PowerShell para gestionar políticas del navegador Brave
 
 - **Interfaz gráfica intuitiva** con tema oscuro moderno
 - **14 políticas disponibles** para deshabilitar características de Brave
-- **Exportar/Importar configuraciones** en formato JSON
 - **Selección rápida** con opción "Seleccionar todo"
-- **Reset completo** de todas las políticas aplicadas
 - **Ejecución automática como administrador** cuando es necesario
 - **Feedback visual** con barra de estado
+- **Ejecución directa desde GitHub** sin necesidad de descargar
 
 ## 📋 Políticas Disponibles
 
@@ -98,23 +97,20 @@ El script solicitará elevación a administrador si no se está ejecutando con e
 2. Haz clic en el botón **"Aplicar"**
 3. Reinicia el navegador Brave para que los cambios surtan efecto
 
-### Exportar Configuración
+### Reactivar Características
 
-1. Configura las políticas deseadas
-2. Haz clic en **"Exportar"**
-3. Guarda el archivo JSON en tu ubicación preferida
+1. Desmarca las casillas de las características que deseas reactivar
+2. Haz clic en el botón **"Aplicar"**
+3. Reinicia el navegador Brave para que los cambios surtan efecto
 
-### Importar Configuración
+### Seleccionar Todo
 
-1. Haz clic en **"Importar"**
-2. Selecciona un archivo JSON previamente exportado
-3. Las casillas se actualizarán automáticamente
+1. Haz clic en el botón **"Sel. todo"** para marcar todas las casillas rápidamente
+2. Luego haz clic en **"Aplicar"** para desactivar todas las características
 
-### Resetear Políticas
+### Actualizar Estado
 
-1. Haz clic en **"Resetear"**
-2. Confirma la acción en el diálogo de advertencia
-3. Todas las políticas serán eliminadas del registro
+1. Haz clic en el botón **"Actualizar"** para refrescar el estado actual de las políticas según el registro
 
 ## ⚙️ Detalles Técnicos
 
@@ -134,7 +130,7 @@ Todas las políticas se aplican como valores `DWord` (32-bit) en el registro de 
 
 - **Auto-elevación**: Solicita privilegios de administrador automáticamente
 - **Interfaz gráfica**: Utiliza Windows Forms con tema oscuro personalizado
-- **Gestión de políticas**: Funciones para aplicar, exportar, importar y resetear
+- **Gestión de políticas**: Funciones para aplicar y eliminar políticas del registro
 - **Validación**: Manejo de errores y feedback al usuario
 
 ## 🛡️ Seguridad
