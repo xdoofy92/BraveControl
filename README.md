@@ -15,7 +15,45 @@ Herramienta gráfica de PowerShell para gestionar políticas del navegador Brave
 - **Feedback visual** con barra de estado
 - **Ejecución directa desde GitHub** sin necesidad de descargar
 
-## 📋 Políticas Disponibles
+## � Ejecución
+
+### Opción Recomendada - Ejecución Directa desde GitHub (Requiere Administrador)
+
+Esta es la forma más rápida de ejecutar BraveControl. Abre PowerShell como administrador y ejecuta:
+
+```powershell
+irm https://raw.githubusercontent.com/xdoofy92/BraveOrigins/main/BraveControl.ps1 | iex
+```
+
+> **⚠️ Nota**: Al ejecutar desde GitHub, el script se descargará y ejecutará automáticamente. Asegúrate de confiar en el código antes de ejecutarlo de esta manera.
+
+### Opción Alternativa - Ejecución Local
+
+Si prefieres descargar el script primero:
+
+```powershell
+git clone https://github.com/xdoofy92/BraveOrigins.git
+cd BraveOrigins
+.\BraveControl.ps1
+```
+
+### Solución de Problemas
+
+Si obtienes un error de "ejecución de scripts deshabilitada", tienes dos opciones:
+
+**Opción 1 - Cambiar política de ejecución (permanente para el usuario actual):**
+```powershell
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+```
+
+**Opción 2 - Ejecución temporal con Bypass:**
+```powershell
+powershell -ExecutionPolicy Bypass -File .\BraveControl.ps1
+```
+
+> **⚠️ Nota**: La política `RemoteSigned` permite ejecutar scripts locales y scripts descargados de internet que estén firmados. Es más segura que `Unrestricted`.
+
+## � Políticas Disponibles
 
 | Política | Descripción |
 |----------|-------------|
@@ -32,56 +70,7 @@ Herramienta gráfica de PowerShell para gestionar políticas del navegador Brave
 | Monedero + Web3 | Deshabilita Brave Wallet y funciones Web3 |
 | Wayback Machine | Deshabilita la integración con Wayback Machine |
 | Web Discovery | Deshabilita Web Discovery |
-| Alias de correo (Nightly) | Deshabilita los alias de correo (versión Nightly) |
-
-## 🚀 Instalación
-
-### Requisitos Previos
-
-- Windows 10 o superior
-- PowerShell 5.1 o superior
-- Privilegios de administrador
-- Navegador Brave instalado
-
-### Configurar Política de Ejecución
-
-Si obtienes un error de "ejecución de scripts deshabilitada", tienes dos opciones:
-
-**Opción 1 - Cambiar política de ejecución (permanente para el usuario actual):**
-```powershell
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-```
-
-**Opción 2 - Ejecución temporal con Bypass:**
-```powershell
-powershell -ExecutionPolicy Bypass -File .\BraveControl.ps1
-```
-
-> **⚠️ Nota**: La política `RemoteSigned` permite ejecutar scripts locales y scripts descargados de internet que estén firmados. Es más segura que `Unrestricted`.
-
-### Pasos de Instalación
-
-**Opción 1 - Clonar el repositorio:**
-```powershell
-git clone https://github.com/xdoofy92/BraveOrigins.git
-cd BraveOrigins
-```
-
-Luego ejecuta el script:
-```powershell
-.\BraveControl.ps1
-```
-
-**Opción 2 - Ejecución directa desde GitHub (sin clonar):**
-```powershell
-irm https://raw.githubusercontent.com/xdoofy92/BraveOrigins/main/BraveControl.ps1 | iex
-```
-
-> **⚠️ Nota**: Al ejecutar desde GitHub, el script se descargará y ejecutará automáticamente. Asegúrate de confiar en el código antes de ejecutarlo de esta manera.
-
-> **⚠️ Importante**: Debes usar `.\` antes del nombre del script. PowerShell no ejecuta scripts del directorio actual por defecto por seguridad. Si solo escribes `BraveControl.ps1` obtendrás un error de "comando no reconocido".
-
-El script solicitará elevación a administrador si no se está ejecutando con esos privilegios.
+| Alias de correo (Nightly)  | Deshabilita los alias de correo (versión Nightly) |
 
 ## 📖 Uso
 

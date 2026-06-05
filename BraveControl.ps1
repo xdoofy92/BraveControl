@@ -8,7 +8,7 @@ chcp 65001 | Out-Null
 if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
     if (-not $PSCommandPath) {
         # Ejecucion remota: descargar y ejecutar como admin
-        $url = "https://raw.githubusercontent.com/xdoofy92/BraveOrigins/main/BraveControl.ps1"
+        $url = "https://raw.githubusercontent.com/xdoofy92/BraveControl/main/BraveControl.ps1"
         $scriptContent = Invoke-RestMethod -Uri $url
         $tempFile = [System.IO.Path]::GetTempFileName() + ".ps1"
         $scriptContent | Out-File $tempFile -Encoding UTF8
@@ -25,7 +25,7 @@ Add-Type -AssemblyName System.Windows.Forms, System.Drawing
 # Constantes
 
 $REG_PATH  = "HKLM:\SOFTWARE\Policies\BraveSoftware\Brave"
-$APP_TITLE = "Brave to Origin - dprojects.org"
+$APP_TITLE = "BraveControl - dprojects.org"
 
 $DARK  = [Drawing.Color]::FromArgb(18, 18, 18)
 $PANEL = [Drawing.Color]::FromArgb(28, 28, 28)
