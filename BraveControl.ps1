@@ -49,7 +49,7 @@ $POLICIES = [ordered]@{
     "Lector rapido"              = @{ Key = "BraveSpeedreaderEnabled";    Val = 0; Opp = 1; T = "DWord" }
     "P3A (analisis de producto)" = @{ Key = "BraveP3AEnabled";            Val = 0; Opp = 1; T = "DWord" }
     "Ping de uso diario"         = @{ Key = "BraveStatsPingEnabled";      Val = 0; Opp = 1; T = "DWord" }
-    "Hablar (Talk)"              = @{ Key = "BraveTalkDisabled";          Val = 1; Opp = 0; T = "DWord" }
+    "Videollamada"               = @{ Key = "BraveTalkDisabled";          Val = 1; Opp = 0; T = "DWord" }
     "Tor"                        = @{ Key = "TorDisabled";                Val = 1; Opp = 0; T = "DWord" }
     "VPN"                        = @{ Key = "BraveVPNDisabled";           Val = 1; Opp = 0; T = "DWord" }
     "Monedero + Web3"            = @{ Key = "BraveWalletDisabled";        Val = 1; Opp = 0; T = "DWord" }
