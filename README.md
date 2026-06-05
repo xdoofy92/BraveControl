@@ -83,7 +83,7 @@ Luego ejecuta el script:
 irm https://raw.githubusercontent.com/xdoofy92/BraveOrigins/main/BraveOrigins.ps1 | iex
 ```
 
-> **⚠️ Nota**: Al ejecutar desde GitHub, el script se descargará y ejecutará automáticamente. Asegúrate de confiar en el código antes de ejecutarlo de esta manera.
+> **⚠️ Nota**: Al ejecutar desde GitHub, el script se descargará automáticamente a un archivo temporal y se ejecutará. Asegúrate de confiar en el código antes de ejecutarlo de esta manera.
 
 > **⚠️ Importante**: Debes usar `.\` antes del nombre del script. PowerShell no ejecuta scripts del directorio actual por defecto por seguridad. Si solo escribes `BraveOrigins.ps1` obtendrás un error de "comando no reconocido".
 
