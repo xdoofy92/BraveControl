@@ -22,7 +22,7 @@ Herramienta gráfica de PowerShell para gestionar políticas del navegador Brave
 Esta es la forma más rápida de ejecutar BraveControl. Abre PowerShell como administrador y ejecuta:
 
 ```powershell
-irm https://raw.githubusercontent.com/xdoofy92/BraveOrigins/main/BraveControl.ps1 | iex
+irm https://raw.githubusercontent.com/xdoofy92/BraveControl/main/BraveControl.ps1 | iex
 ```
 
 > **⚠️ Nota**: Al ejecutar desde GitHub, el script se descargará y ejecutará automáticamente. Asegúrate de confiar en el código antes de ejecutarlo de esta manera.
@@ -32,8 +32,8 @@ irm https://raw.githubusercontent.com/xdoofy92/BraveOrigins/main/BraveControl.ps
 Si prefieres descargar el script primero:
 
 ```powershell
-git clone https://github.com/xdoofy92/BraveOrigins.git
-cd BraveOrigins
+git clone https://github.com/xdoofy92/BraveControl.git
+cd BraveControl
 .\BraveControl.ps1
 ```
 
