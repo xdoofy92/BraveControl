@@ -1,4 +1,4 @@
-# BraveOrigins
+# BraveControl
 
 ![PowerShell](https://img.shields.io/badge/PowerShell-5.1+-blue?logo=powershell)
 ![License](https://img.shields.io/badge/license-MIT-green)
@@ -54,7 +54,7 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 
 **Opción 2 - Ejecución temporal con Bypass:**
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\BraveOrigins.ps1
+powershell -ExecutionPolicy Bypass -File .\BraveControl.ps1
 ```
 
 > **⚠️ Nota**: La política `RemoteSigned` permite ejecutar scripts locales y scripts descargados de internet que estén firmados. Es más segura que `Unrestricted`.
@@ -69,17 +69,17 @@ cd BraveOrigins
 
 Luego ejecuta el script:
 ```powershell
-.\BraveOrigins.ps1
+.\BraveControl.ps1
 ```
 
 **Opción 2 - Ejecución directa desde GitHub (sin clonar):**
 ```powershell
-irm https://raw.githubusercontent.com/xdoofy92/BraveOrigins/main/BraveOrigins.ps1 | iex
+irm https://raw.githubusercontent.com/xdoofy92/BraveOrigins/main/BraveControl.ps1 | iex
 ```
 
 > **⚠️ Nota**: Al ejecutar desde GitHub, el script se descargará y ejecutará automáticamente. Asegúrate de confiar en el código antes de ejecutarlo de esta manera.
 
-> **⚠️ Importante**: Debes usar `.\` antes del nombre del script. PowerShell no ejecuta scripts del directorio actual por defecto por seguridad. Si solo escribes `BraveOrigins.ps1` obtendrás un error de "comando no reconocido".
+> **⚠️ Importante**: Debes usar `.\` antes del nombre del script. PowerShell no ejecuta scripts del directorio actual por defecto por seguridad. Si solo escribes `BraveControl.ps1` obtendrás un error de "comando no reconocido".
 
 El script solicitará elevación a administrador si no se está ejecutando con esos privilegios.
 

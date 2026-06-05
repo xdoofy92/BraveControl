@@ -1,4 +1,4 @@
-﻿# BraveOrigins v0.1
+﻿# BraveControl v0.1
 
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 $OutputEncoding = [System.Text.Encoding]::UTF8
@@ -8,7 +8,7 @@ chcp 65001 | Out-Null
 if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
     if (-not $PSCommandPath) {
         # Ejecucion remota: descargar y ejecutar como admin
-        $url = "https://raw.githubusercontent.com/xdoofy92/BraveOrigins/main/BraveOrigins.ps1"
+        $url = "https://raw.githubusercontent.com/xdoofy92/BraveOrigins/main/BraveControl.ps1"
         $scriptContent = Invoke-RestMethod -Uri $url
         $tempFile = [System.IO.Path]::GetTempFileName() + ".ps1"
         $scriptContent | Out-File $tempFile -Encoding UTF8
@@ -156,7 +156,7 @@ $header.BackColor = $PANEL
 $form.Controls.Add($header)
 
 $lblTitle = [Windows.Forms.Label]::new()
-$lblTitle.Text      = "BraveOrigins"
+$lblTitle.Text      = "BraveControl"
 $lblTitle.Font      = [Drawing.Font]::new("Segoe UI", 13, [Drawing.FontStyle]::Bold)
 $lblTitle.ForeColor = $ACCENT
 $lblTitle.Location  = [Drawing.Point]::new(20, 12)
