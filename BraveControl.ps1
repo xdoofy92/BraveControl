@@ -164,7 +164,7 @@ $lblTitle.AutoSize  = $true
 $header.Controls.Add($lblTitle)
 
 $lblSub = [Windows.Forms.Label]::new()
-$lblSub.Text      = "Politicas de Brave via registry"
+$lblSub.Text      = "Politicas de Brave via registro"
 $lblSub.Font      = [Drawing.Font]::new("Segoe UI", 8)
 $lblSub.ForeColor = $MUTED
 $lblSub.Location  = [Drawing.Point]::new(145, 18)
