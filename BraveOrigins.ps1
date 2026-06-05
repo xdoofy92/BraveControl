@@ -1,4 +1,5 @@
 ﻿#Requires -Version 5.1
+# BraveOrigins v0.1
 
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 $OutputEncoding = [System.Text.Encoding]::UTF8
@@ -27,10 +28,10 @@ if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdenti
 
 Add-Type -AssemblyName System.Windows.Forms, System.Drawing
 
-# â”€â”€ Constantes â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# Constantes
 
 $REG_PATH  = "HKLM:\SOFTWARE\Policies\BraveSoftware\Brave"
-$APP_TITLE = "BraveOrigins"
+$APP_TITLE = "Brave to Origin - dprojects.org"
 
 $DARK  = [Drawing.Color]::FromArgb(18, 18, 18)
 $PANEL = [Drawing.Color]::FromArgb(28, 28, 28)
@@ -44,26 +45,26 @@ $FONT_LABEL = [Drawing.Font]::new("Segoe UI", 8, [Drawing.FontStyle]::Bold)
 
 if (-not (Test-Path $REG_PATH)) { New-Item $REG_PATH -Force | Out-Null }
 
-# â”€â”€ Policies â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# Policies
 
 $POLICIES = [ordered]@{
-    "Leo (AI Chat)"              = @{ Key = "BraveAIChatEnabled";         Val = 0; T = "DWord" }
-    "Noticias"                   = @{ Key = "BraveNewsDisabled";          Val = 1; T = "DWord" }
-    "Lista de reproduccion"      = @{ Key = "BravePlaylistEnabled";       Val = 0; T = "DWord" }
-    "Recompensas + Brave Ads"    = @{ Key = "BraveRewardsDisabled";       Val = 1; T = "DWord" }
-    "Lector rapido"              = @{ Key = "BraveSpeedreaderEnabled";    Val = 0; T = "DWord" }
-    "P3A (analisis de producto)" = @{ Key = "BraveP3AEnabled";            Val = 0; T = "DWord" }
-    "Ping de uso diario"         = @{ Key = "BraveStatsPingEnabled";      Val = 0; T = "DWord" }
-    "Hablar (Talk)"              = @{ Key = "BraveTalkDisabled";          Val = 1; T = "DWord" }
-    "Tor"                        = @{ Key = "TorDisabled";                Val = 1; T = "DWord" }
-    "VPN"                        = @{ Key = "BraveVPNDisabled";           Val = 1; T = "DWord" }
-    "Monedero + Web3"            = @{ Key = "BraveWalletDisabled";        Val = 1; T = "DWord" }
-    "Wayback Machine"            = @{ Key = "BraveWaybackMachineEnabled"; Val = 0; T = "DWord" }
-    "Web Discovery"              = @{ Key = "BraveWebDiscoveryEnabled";   Val = 0; T = "DWord" }
-    "Alias de correo (Nightly)"  = @{ Key = "BraveEmailAliasesEnabled";   Val = 0; T = "DWord" }
+    "Leo (AI Chat)"              = @{ Key = "BraveAIChatEnabled";         Val = 0; Opp = 1; T = "DWord" }
+    "Noticias"                   = @{ Key = "BraveNewsDisabled";          Val = 1; Opp = 0; T = "DWord" }
+    "Lista de reproduccion"      = @{ Key = "BravePlaylistEnabled";       Val = 0; Opp = 1; T = "DWord" }
+    "Recompensas + Brave Ads"    = @{ Key = "BraveRewardsDisabled";       Val = 1; Opp = 0; T = "DWord" }
+    "Lector rapido"              = @{ Key = "BraveSpeedreaderEnabled";    Val = 0; Opp = 1; T = "DWord" }
+    "P3A (analisis de producto)" = @{ Key = "BraveP3AEnabled";            Val = 0; Opp = 1; T = "DWord" }
+    "Ping de uso diario"         = @{ Key = "BraveStatsPingEnabled";      Val = 0; Opp = 1; T = "DWord" }
+    "Hablar (Talk)"              = @{ Key = "BraveTalkDisabled";          Val = 1; Opp = 0; T = "DWord" }
+    "Tor"                        = @{ Key = "TorDisabled";                Val = 1; Opp = 0; T = "DWord" }
+    "VPN"                        = @{ Key = "BraveVPNDisabled";           Val = 1; Opp = 0; T = "DWord" }
+    "Monedero + Web3"            = @{ Key = "BraveWalletDisabled";        Val = 1; Opp = 0; T = "DWord" }
+    "Wayback Machine"            = @{ Key = "BraveWaybackMachineEnabled"; Val = 0; Opp = 1; T = "DWord" }
+    "Web Discovery"              = @{ Key = "BraveWebDiscoveryEnabled";   Val = 0; Opp = 1; T = "DWord" }
+    "Alias de correo (Nightly)"  = @{ Key = "BraveEmailAliasesEnabled";   Val = 0; Opp = 1; T = "DWord" }
 }
 
-# â”€â”€ Helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# Helpers
 
 function New-FlatButton {
     param([string]$Text, [Drawing.Point]$Pos, [Drawing.Size]$Size, [Drawing.Color]$Fg)
@@ -87,72 +88,65 @@ function Get-ActivePolicies {
     return $script:checks.Keys | Where-Object { $script:checks[$_].Checked }
 }
 
-function Set-Policies {
-    $ok = 0; $fail = 0
-    foreach ($name in Get-ActivePolicies) {
-        $p = $POLICIES[$name]
-        try {
-            Set-ItemProperty -Path $REG_PATH -Name $p.Key -Value $p.Val -Type $p.T -Force
-            $ok++
-        } catch { $fail++ }
-    }
-    return $ok, $fail
-}
-
-function Reset-Policies {
-    $confirm = [Windows.Forms.MessageBox]::Show(
-        "Se eliminaran todas las politicas de Brave del registro.`nÂ¿Continuar?",
-        $APP_TITLE, "YesNo", "Warning")
-    if ($confirm -ne "Yes") { return $false }
+function Get-PolicyState {
+    param([string]$Key)
     try {
-        Remove-Item $REG_PATH -Recurse -Force -ErrorAction Stop
-        New-Item $REG_PATH -Force | Out-Null
-        return $true
-    } catch {
-        [Windows.Forms.MessageBox]::Show("Error al resetear: $_", $APP_TITLE, "OK", "Error")
-        return $false
-    }
-}
-
-function Export-Config {
-    $dlg = [Windows.Forms.SaveFileDialog]::new()
-    $dlg.Title           = "Exportar configuracion"
-    $dlg.Filter          = "JSON (*.json)|*.json"
-    $dlg.FileName        = "BraveOrigins-config.json"
-    $dlg.InitialDirectory= [Environment]::GetFolderPath("MyDocuments")
-    if ($dlg.ShowDialog() -ne "OK") { return }
-    $data = @{ Active = @(Get-ActivePolicies) } | ConvertTo-Json
-    try {
-        $data | Out-File $dlg.FileName -Force -Encoding utf8
-        [Windows.Forms.MessageBox]::Show("Exportado en:`n$($dlg.FileName)", $APP_TITLE, "OK", "Information")
-    } catch {
-        [Windows.Forms.MessageBox]::Show("Error al exportar: $_", $APP_TITLE, "OK", "Error")
-    }
-}
-
-function Import-Config {
-    $dlg = [Windows.Forms.OpenFileDialog]::new()
-    $dlg.Title           = "Importar configuracion"
-    $dlg.Filter          = "JSON (*.json)|*.json"
-    $dlg.InitialDirectory= [Environment]::GetFolderPath("MyDocuments")
-    if ($dlg.ShowDialog() -ne "OK") { return }
-    try {
-        $data = Get-Content $dlg.FileName -Raw | ConvertFrom-Json
-        foreach ($cb in $script:checks.Values) { $cb.Checked = $false }
-        foreach ($name in $data.Active) {
-            if ($script:checks.ContainsKey($name)) { $script:checks[$name].Checked = $true }
+        $value = Get-ItemProperty -Path $REG_PATH -Name $Key -ErrorAction SilentlyContinue
+        if ($value) {
+            return $value.$Key
         }
-        [Windows.Forms.MessageBox]::Show("Importado desde:`n$($dlg.FileName)", $APP_TITLE, "OK", "Information")
     } catch {
-        [Windows.Forms.MessageBox]::Show("Error al importar: $_", $APP_TITLE, "OK", "Error")
+        return $null
+    }
+    return $null
+}
+
+function Update-CurrentState {
+    foreach ($name in $POLICIES.Keys) {
+        $p = $POLICIES[$name]
+        $currentValue = Get-PolicyState -Key $p.Key
+        if ($currentValue -eq $p.Val) {
+            $script:checks[$name].Checked = $true
+            $script:labels[$name].ForeColor = [Drawing.Color]::FromArgb(120,220,120)
+        } elseif ($null -eq $currentValue) {
+            $script:checks[$name].Checked = $false
+            $script:labels[$name].ForeColor = $FG
+        } else {
+            $script:checks[$name].Checked = $false
+            $script:labels[$name].ForeColor = [Drawing.Color]::FromArgb(255,100,100)
+        }
     }
 }
 
-# â”€â”€ UI â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function Set-Policies {
+    $ok = 0; $fail = 0; $removed = 0
+    foreach ($name in $POLICIES.Keys) {
+        $p = $POLICIES[$name]
+        $isChecked = $script:checks[$name].Checked
+        $currentValue = Get-PolicyState -Key $p.Key
+
+        if ($isChecked) {
+            # Activar política
+            try {
+                Set-ItemProperty -Path $REG_PATH -Name $p.Key -Value $p.Val -Type $p.T -Force
+                $ok++
+            } catch { $fail++ }
+        } elseif ($currentValue -eq $p.Val) {
+            # Desactivar política (eliminar del registro)
+            try {
+                Remove-ItemProperty -Path $REG_PATH -Name $p.Key -Force -ErrorAction Stop
+                $removed++
+            } catch { $fail++ }
+        }
+    }
+    return $ok, $fail, $removed
+}
+
+# UI
 
 $form = [Windows.Forms.Form]::new()
 $form.Text            = $APP_TITLE
-$form.Size            = [Drawing.Size]::new(420, 560)
+$form.Size            = [Drawing.Size]::new(420, 600)
 $form.StartPosition   = "CenterScreen"
 $form.BackColor       = $DARK
 $form.ForeColor       = $FG
@@ -179,16 +173,16 @@ $lblSub = [Windows.Forms.Label]::new()
 $lblSub.Text      = "Politicas de Brave via registry"
 $lblSub.Font      = [Drawing.Font]::new("Segoe UI", 8)
 $lblSub.ForeColor = $MUTED
-$lblSub.Location  = [Drawing.Point]::new(130, 18)
+$lblSub.Location  = [Drawing.Point]::new(145, 18)
 $lblSub.AutoSize  = $true
 $header.Controls.Add($lblSub)
 
 # Panel de checks con scroll
 $scroll = [Windows.Forms.Panel]::new()
 $scroll.Location    = [Drawing.Point]::new(16, 60)
-$scroll.Size        = [Drawing.Size]::new(386, 390)
+$scroll.Size        = [Drawing.Size]::new(386, 420)
 $scroll.BackColor   = $PANEL
-$scroll.AutoScroll  = $true
+$scroll.AutoScroll  = $false
 $scroll.BorderStyle = "None"
 $form.Controls.Add($scroll)
 
@@ -209,80 +203,99 @@ $secLabel.AutoSize  = $true
 $scroll.Controls.Add($secLabel)
 
 $script:checks = [ordered]@{}
+$script:labels = [ordered]@{}
 $y = 34
 
 foreach ($name in $POLICIES.Keys) {
     $cb = [Windows.Forms.CheckBox]::new()
-    $cb.Text      = $name
+    $cb.Text      = ""
     $cb.Location  = [Drawing.Point]::new(12, $y)
-    $cb.Size      = [Drawing.Size]::new(360, 22)
-    $cb.ForeColor = $FG
+    $cb.Size      = [Drawing.Size]::new(20, 22)
     $cb.FlatStyle = "Flat"
     $cb.Cursor    = [Windows.Forms.Cursors]::Hand
+    $cb.Add_CheckedChanged({
+        $currentName = $this.Tag
+        if ($this.Checked) {
+            $script:labels[$currentName].ForeColor = [Drawing.Color]::FromArgb(120,220,120)
+        } else {
+            $script:labels[$currentName].ForeColor = $FG
+        }
+    }.GetNewClosure())
+    $cb.Tag = $name
     $scroll.Controls.Add($cb)
     $script:checks[$name] = $cb
+
+    $lbl = [Windows.Forms.Label]::new()
+    $lbl.Text      = $name
+    $lbl.Location  = [Drawing.Point]::new(38, $y + 2)
+    $lbl.Size      = [Drawing.Size]::new(340, 20)
+    $lbl.ForeColor = $FG
+    $lbl.Font      = $FONT_BODY
+    $lbl.Cursor    = [Windows.Forms.Cursors]::Hand
+    $lbl.Tag = $name
+    $lbl.Add_Click({
+        $currentName = $this.Tag
+        $script:checks[$currentName].Checked = !$script:checks[$currentName].Checked
+    }.GetNewClosure())
+    $scroll.Controls.Add($lbl)
+    $script:labels[$name] = $lbl
+
     $y += 26
 }
 
-# Seleccionar/deseleccionar todo
-$script:chkAll = [Windows.Forms.CheckBox]::new()
-$script:chkAll.Text      = "Seleccionar todo"
-$script:chkAll.Location  = [Drawing.Point]::new(28, 458)
-$script:chkAll.AutoSize  = $true
-$script:chkAll.ForeColor = $MUTED
-$script:chkAll.FlatStyle = "Flat"
-$script:chkAll.Cursor    = [Windows.Forms.Cursors]::Hand
-$form.Controls.Add($script:chkAll)
-
-$script:chkAll.Add_CheckedChanged({
-    foreach ($cb in $script:checks.Values) { $cb.Checked = $script:chkAll.Checked }
-})
-
 # Botones
-$btnApply  = New-FlatButton "Aplicar"   ([Drawing.Point]::new(16,  490)) ([Drawing.Size]::new(88, 30)) ([Drawing.Color]::FromArgb(120,220,120))
-$btnExport = New-FlatButton "Exportar"  ([Drawing.Point]::new(114, 490)) ([Drawing.Size]::new(88, 30)) ([Drawing.Color]::FromArgb(120,180,255))
-$btnImport = New-FlatButton "Importar"  ([Drawing.Point]::new(212, 490)) ([Drawing.Size]::new(88, 30)) ([Drawing.Color]::FromArgb(200,200,200))
-$btnReset  = New-FlatButton "Resetear"  ([Drawing.Point]::new(310, 490)) ([Drawing.Size]::new(88, 30)) ([Drawing.Color]::FromArgb(255,110,110))
+$btnSelectAll = New-FlatButton "Sel. todo"   ([Drawing.Point]::new(60,  500)) ([Drawing.Size]::new(100, 30)) ([Drawing.Color]::FromArgb(100,100,100))
+$btnApply = New-FlatButton "Aplicar"   ([Drawing.Point]::new(170,  500)) ([Drawing.Size]::new(100, 30)) ([Drawing.Color]::FromArgb(120,220,120))
+$btnUpdate = New-FlatButton "Actualizar"  ([Drawing.Point]::new(280, 500)) ([Drawing.Size]::new(100, 30)) ([Drawing.Color]::FromArgb(120,180,255))
 
-$form.Controls.AddRange(@($btnApply, $btnExport, $btnImport, $btnReset))
+$form.Controls.AddRange(@($btnSelectAll, $btnApply, $btnUpdate))
 
 # Barra de estado
 $script:status = [Windows.Forms.Label]::new()
-$script:status.Location  = [Drawing.Point]::new(16, 526)
+$script:status.Location  = [Drawing.Point]::new(16, 540)
 $script:status.Size      = [Drawing.Size]::new(386, 16)
 $script:status.ForeColor = $MUTED
 $script:status.Font      = [Drawing.Font]::new("Segoe UI", 7.5)
 $script:status.Text      = "Listo."
 $form.Controls.Add($script:status)
 
-# â”€â”€ Eventos â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# Cargar estado actual al iniciar
+Update-CurrentState
 
-$btnApply.Add_Click({
-    $active = @(Get-ActivePolicies)
-    if ($active.Count -eq 0) {
-        $script:status.Text = "Ninguna politica seleccionada."
-        return
+# Eventos
+
+$btnSelectAll.Add_Click({
+    foreach ($cb in $script:checks.Values) {
+        $cb.Checked = $true
     }
-    $ok, $fail = Set-Policies
-    if ($fail -eq 0) {
-        $script:status.ForeColor = [Drawing.Color]::FromArgb(120,220,120)
-        $script:status.Text = "Aplicadas $ok politicas correctamente. Reinicia Brave."
-    } else {
-        $script:status.ForeColor = [Drawing.Color]::FromArgb(255,160,80)
-        $script:status.Text = "$ok aplicadas, $fail fallaron."
-    }
+    $script:status.ForeColor = $MUTED
+    $script:status.Text = "Todas las politicas seleccionadas."
 })
 
-$btnExport.Add_Click({ Export-Config })
-$btnImport.Add_Click({ Import-Config })
-
-$btnReset.Add_Click({
-    if (Reset-Policies) {
-        foreach ($cb in $script:checks.Values) { $cb.Checked = $false }
-        $script:chkAll.Checked = $false
-        $script:status.ForeColor = $MUTED
-        $script:status.Text = "Todas las politicas eliminadas del registro."
+$btnApply.Add_Click({
+    $count = 0
+    foreach ($name in $POLICIES.Keys) {
+        $p = $POLICIES[$name]
+        if ($script:checks[$name].Checked) {
+            try {
+                Set-ItemProperty -Path $REG_PATH -Name $p.Key -Value $p.Val -Type $p.T -Force
+                $count++
+            } catch { }
+        } else {
+            try {
+                Remove-ItemProperty -Path $REG_PATH -Name $p.Key -Force -ErrorAction SilentlyContinue
+            } catch { }
+        }
     }
+    Update-CurrentState
+    $script:status.ForeColor = [Drawing.Color]::FromArgb(120,220,120)
+    $script:status.Text = "Aplicadas $count politicas. Reinicia Brave."
+})
+
+$btnUpdate.Add_Click({
+    Update-CurrentState
+    $script:status.ForeColor = $MUTED
+    $script:status.Text = "Estado actualizado."
 })
 
 [void]$form.ShowDialog()
