@@ -25,7 +25,7 @@ Esta es la forma más rápida de ejecutar BraveControl. Abre PowerShell como adm
 irm https://raw.githubusercontent.com/xdoofy92/BraveControl/main/BraveControl.ps1 | iex
 ```
 
-> **⚠️ Nota**: Al ejecutar desde GitHub, el script se descargará y ejecutará automáticamente. Asegúrate de confiar en el código antes de ejecutarlo de esta manera.
+> **📃 Nota**: Al ejecutar desde GitHub, el script se descargará y ejecutará automáticamente.
 
 ### Opción Alternativa - Ejecución Local
 
