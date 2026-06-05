@@ -1,30 +1,12 @@
 ﻿# BraveOrigins v0.1
 
-# Si se ejecuta via pipeline (irm | iex), descargar a archivo temporal y ejecutar
-if (-not $PSCommandPath) {
-    $url = "https://raw.githubusercontent.com/xdoofy92/BraveOrigins/main/BraveOrigins.ps1"
-    $scriptContent = Invoke-RestMethod -Uri $url
-    $tempFile = [System.IO.Path]::GetTempFileName() + ".ps1"
-    $scriptContent | Out-File $tempFile -Encoding UTF8
-    & $tempFile @args
-    Remove-Item $tempFile -Force
-    exit
-}
-
-#Requires -Version 5.1
-
-param(
-    [switch]$Bypass,
-    [switch]$Remote
-)
-
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 $OutputEncoding = [System.Text.Encoding]::UTF8
 chcp 65001 | Out-Null
 
 # Elevacion a administrador
 if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
-    if ($Remote) {
+    if (-not $PSCommandPath) {
         # Ejecucion remota: descargar y ejecutar como admin
         $url = "https://raw.githubusercontent.com/xdoofy92/BraveOrigins/main/BraveOrigins.ps1"
         $scriptContent = Invoke-RestMethod -Uri $url
