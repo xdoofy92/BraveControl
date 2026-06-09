@@ -1,4 +1,4 @@
-﻿# BraveControl v0.1
+# BraveControl
 
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 $OutputEncoding = [System.Text.Encoding]::UTF8
@@ -120,13 +120,13 @@ function Set-Policies {
         $currentValue = Get-PolicyState -Key $p.Key
 
         if ($isChecked) {
-            # Activar política
+            # Activar pol�tica
             try {
                 Set-ItemProperty -Path $REG_PATH -Name $p.Key -Value $p.Val -Type $p.T -Force
                 $ok++
             } catch { $fail++ }
         } elseif ($currentValue -eq $p.Val) {
-            # Desactivar política (eliminar del registro)
+            # Desactivar pol�tica (eliminar del registro)
             try {
                 Remove-ItemProperty -Path $REG_PATH -Name $p.Key -Force -ErrorAction Stop
                 $removed++
@@ -187,7 +187,7 @@ $sep.Size      = [Drawing.Size]::new(386, 1)
 $sep.BackColor = $BORDER
 $form.Controls.Add($sep)
 
-# Label de secciÃ³n dentro del panel
+# Label de sección dentro del panel
 $secLabel = [Windows.Forms.Label]::new()
 $secLabel.Text      = "CARACTERISTICAS A DESHABILITAR"
 $secLabel.Font      = $FONT_LABEL
