@@ -9,8 +9,9 @@ Herramienta gráfica de PowerShell para gestionar políticas del navegador Brave
 ## 🎯 Características
 
 - **Interfaz gráfica intuitiva** con tema oscuro moderno
-- **14 políticas disponibles** para deshabilitar características de Brave
-- **Selección rápida** con opción "Seleccionar todo"
+- **13 características** para deshabilitar en Brave
+- **Todos los interruptores activados por defecto**: apagas el de lo que quieras desactivar
+- **Acciones rápidas**: "Activar todo" y "Desactivar todo"
 - **Ejecución automática como administrador** cuando es necesario
 - **Feedback visual** con barra de estado
 - **Ejecución directa desde GitHub** sin necesidad de descargar
@@ -70,26 +71,27 @@ powershell -ExecutionPolicy Bypass -File .\BraveControl.ps1
 | Monedero + Web3 | Deshabilita Brave Wallet y funciones Web3 |
 | Wayback Machine | Deshabilita la integración con Wayback Machine |
 | Web Discovery | Deshabilita Web Discovery |
-| Alias de correo (Nightly)  | Deshabilita los alias de correo (versión Nightly) |
 
 ## 📖 Uso
 
-### Aplicar Políticas
+> Todos los interruptores vienen **activados** (estado por defecto del navegador). Apagas el de lo que quieras desactivar.
 
-1. Selecciona las características que deseas deshabilitar marcando las casillas
+### Desactivar características
+
+1. **Apaga** el interruptor de las características que quieras deshabilitar
 2. Haz clic en el botón **"Aplicar"**
 3. Reinicia el navegador Brave para que los cambios surtan efecto
 
 ### Reactivar Características
 
-1. Desmarca las casillas de las características que deseas reactivar
-2. Haz clic en el botón **"Aplicar"**
+1. **Enciende** de nuevo el interruptor de lo que quieras volver a activar
+2. Haz clic en el botón **"Aplicar"** (elimina la política del registro)
 3. Reinicia el navegador Brave para que los cambios surtan efecto
 
-### Seleccionar Todo
+### Activar / Desactivar todo
 
-1. Haz clic en el botón **"Sel. todo"** para marcar todas las casillas rápidamente
-2. Luego haz clic en **"Aplicar"** para desactivar todas las características
+- **"Activar todo"**: enciende todos los interruptores (estado por defecto)
+- **"Desactivar todo"**: los apaga todos (debloat completo); luego pulsa **"Aplicar"**
 
 ### Actualizar Estado
 

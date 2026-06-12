@@ -67,27 +67,29 @@ $W_TXT = $X_TOG - $X_TXT - 10
 
 if (-not (Test-Path $REG_PATH)) { New-Item $REG_PATH -Force | Out-Null }
 
-# ─── Caracteristicas a deshabilitar (listado unico) ──────────────────────────
+# ─── Caracteristicas (listado unico) ─────────────────────────────────────────
+# Logica: el toggle refleja el estado de la caracteristica.
+#   ON  (verde) = activada (estado normal)        Off = valor "activado" / no configurada
+#   OFF (gris)  = se desactivara al pulsar Aplicar  -> escribe Val en el registro
 # Formato: Nombre = @{ Key; Val=valor desactivado; Opp=valor activado; T=tipo; Desc }
 $POLICIES = [ordered]@{
-    "Leo (AI Chat)"              = @{ Key = "BraveAIChatEnabled";         Val = 0; Opp = 1; T = "DWord"; Desc = "Desactiva el asistente de IA Leo integrado" }
-    "Noticias"                   = @{ Key = "BraveNewsDisabled";          Val = 1; Opp = 0; T = "DWord"; Desc = "Desactiva el feed de noticias Brave News" }
-    "Lista de reproduccion"      = @{ Key = "BravePlaylistEnabled";       Val = 0; Opp = 1; T = "DWord"; Desc = "Desactiva la funcion Playlist" }
-    "Lector rapido"              = @{ Key = "BraveSpeedreaderEnabled";    Val = 0; Opp = 1; T = "DWord"; Desc = "Desactiva el modo de lectura rapida (Speedreader)" }
-    "Wayback Machine"            = @{ Key = "BraveWaybackMachineEnabled"; Val = 0; Opp = 1; T = "DWord"; Desc = "Desactiva la integracion con Wayback Machine" }
-    "P3A (analisis de producto)" = @{ Key = "BraveP3AEnabled";           Val = 0; Opp = 1; T = "DWord"; Desc = "Desactiva la telemetria anonima de producto (P3A)" }
-    "Ping de uso diario"         = @{ Key = "BraveStatsPingEnabled";     Val = 0; Opp = 1; T = "DWord"; Desc = "Desactiva el ping diario de estadisticas de uso" }
-    "Web Discovery"              = @{ Key = "BraveWebDiscoveryEnabled";  Val = 0; Opp = 1; T = "DWord"; Desc = "Desactiva el envio de datos de Web Discovery" }
-    "Recompensas + Brave Ads"    = @{ Key = "BraveRewardsDisabled";      Val = 1; Opp = 0; T = "DWord"; Desc = "Desactiva Brave Rewards y los anuncios" }
-    "Monedero + Web3"            = @{ Key = "BraveWalletDisabled";       Val = 1; Opp = 0; T = "DWord"; Desc = "Desactiva Brave Wallet y las funciones Web3" }
-    "Videollamada"               = @{ Key = "BraveTalkDisabled";         Val = 1; Opp = 0; T = "DWord"; Desc = "Desactiva Brave Talk (videollamadas)" }
-    "Tor"                        = @{ Key = "TorDisabled";               Val = 1; Opp = 0; T = "DWord"; Desc = "Desactiva las ventanas privadas con Tor" }
-    "VPN"                        = @{ Key = "BraveVPNDisabled";          Val = 1; Opp = 0; T = "DWord"; Desc = "Desactiva Brave VPN" }
-    "Alias de correo"            = @{ Key = "BraveEmailAliasesEnabled";  Val = 0; Opp = 1; T = "DWord"; Desc = "Desactiva los alias de correo" }
+    "Leo (AI Chat)"              = @{ Key = "BraveAIChatEnabled";         Val = 0; Opp = 1; T = "DWord"; Desc = "Asistente de IA Leo integrado" }
+    "Noticias"                   = @{ Key = "BraveNewsDisabled";          Val = 1; Opp = 0; T = "DWord"; Desc = "Feed de noticias Brave News" }
+    "Lista de reproduccion"      = @{ Key = "BravePlaylistEnabled";       Val = 0; Opp = 1; T = "DWord"; Desc = "Funcion Playlist" }
+    "Lector rapido"              = @{ Key = "BraveSpeedreaderEnabled";    Val = 0; Opp = 1; T = "DWord"; Desc = "Modo de lectura rapida (Speedreader)" }
+    "Wayback Machine"            = @{ Key = "BraveWaybackMachineEnabled"; Val = 0; Opp = 1; T = "DWord"; Desc = "Integracion con Wayback Machine" }
+    "P3A (analisis de producto)" = @{ Key = "BraveP3AEnabled";           Val = 0; Opp = 1; T = "DWord"; Desc = "Telemetria anonima de producto (P3A)" }
+    "Ping de uso diario"         = @{ Key = "BraveStatsPingEnabled";     Val = 0; Opp = 1; T = "DWord"; Desc = "Ping diario de estadisticas de uso" }
+    "Web Discovery"              = @{ Key = "BraveWebDiscoveryEnabled";  Val = 0; Opp = 1; T = "DWord"; Desc = "Envio de datos de Web Discovery" }
+    "Recompensas + Brave Ads"    = @{ Key = "BraveRewardsDisabled";      Val = 1; Opp = 0; T = "DWord"; Desc = "Brave Rewards y los anuncios" }
+    "Monedero + Web3"            = @{ Key = "BraveWalletDisabled";       Val = 1; Opp = 0; T = "DWord"; Desc = "Brave Wallet y las funciones Web3" }
+    "Videollamada"               = @{ Key = "BraveTalkDisabled";         Val = 1; Opp = 0; T = "DWord"; Desc = "Brave Talk (videollamadas)" }
+    "Tor"                        = @{ Key = "TorDisabled";               Val = 1; Opp = 0; T = "DWord"; Desc = "Ventanas privadas con Tor" }
+    "VPN"                        = @{ Key = "BraveVPNDisabled";          Val = 1; Opp = 0; T = "DWord"; Desc = "Brave VPN" }
 }
 
 # ─── Estado en memoria ───────────────────────────────────────────────────────
-$script:state   = [ordered]@{}
+$script:state   = [ordered]@{}   # $true = caracteristica activada (toggle ON)
 $script:labels  = [ordered]@{}
 $script:toggles = [ordered]@{}
 $script:total   = $POLICIES.Count
@@ -103,9 +105,9 @@ function Get-PolicyState {
 }
 
 function Update-Counter {
-    $n = ($script:state.Values | Where-Object { $_ }).Count
-    $script:counter.Text = "$n / $script:total Desactivadas"
-    $script:counter.ForeColor = if ($n -gt 0) { $GREEN } else { $MUTED }
+    $off = ($script:state.Values | Where-Object { -not $_ }).Count
+    $script:counter.Text = "$off / $script:total a Desactivar"
+    $script:counter.ForeColor = if ($off -gt 0) { $ACCENT } else { $MUTED }
 }
 
 function Update-CurrentState {
@@ -113,14 +115,13 @@ function Update-CurrentState {
         $p = $POLICIES[$name]
         $cur = Get-PolicyState -Key $p.Key
         if ($cur -eq $p.Val) {
-            $script:state[$name] = $true
-            $script:labels[$name].ForeColor = $GREEN
-        } elseif ($null -eq $cur) {
+            # Ya esta desactivada en el registro -> toggle OFF
             $script:state[$name] = $false
-            $script:labels[$name].ForeColor = $FG
+            $script:labels[$name].ForeColor = $MUTED
         } else {
-            $script:state[$name] = $false
-            $script:labels[$name].ForeColor = $RED
+            # Activada (no configurada o valor activado) -> toggle ON
+            $script:state[$name] = $true
+            $script:labels[$name].ForeColor = $FG
         }
         $script:toggles[$name].Invalidate()
     }
@@ -130,25 +131,27 @@ function Update-CurrentState {
 function Invoke-PolicyToggle {
     param([string]$Name)
     $script:state[$Name] = -not $script:state[$Name]
-    $script:labels[$Name].ForeColor = if ($script:state[$Name]) { $GREEN } else { $FG }
+    $script:labels[$Name].ForeColor = if ($script:state[$Name]) { $FG } else { $MUTED }
     $script:toggles[$Name].Invalidate()
     Update-Counter
 }
 
 function Set-Policies {
-    $ok = 0; $fail = 0; $removed = 0
+    $disabled = 0; $fail = 0; $reenabled = 0
     foreach ($name in $POLICIES.Keys) {
         $p = $POLICIES[$name]
         $cur = Get-PolicyState -Key $p.Key
-        if ($script:state[$name]) {
-            try { Set-ItemProperty -Path $REG_PATH -Name $p.Key -Value $p.Val -Type $p.T -Force; $ok++ }
+        if (-not $script:state[$name]) {
+            # Toggle OFF -> desactivar caracteristica
+            try { Set-ItemProperty -Path $REG_PATH -Name $p.Key -Value $p.Val -Type $p.T -Force; $disabled++ }
             catch { $fail++ }
         } elseif ($cur -eq $p.Val) {
-            try { Remove-ItemProperty -Path $REG_PATH -Name $p.Key -Force -ErrorAction Stop; $removed++ }
+            # Toggle ON y estaba desactivada -> reactivar (quitar la politica)
+            try { Remove-ItemProperty -Path $REG_PATH -Name $p.Key -Force -ErrorAction Stop; $reenabled++ }
             catch { $fail++ }
         }
     }
-    return $ok, $fail, $removed
+    return $disabled, $fail, $reenabled
 }
 
 # ─── Helpers de UI ───────────────────────────────────────────────────────────
@@ -249,8 +252,8 @@ $lblSub.AutoSize  = $true
 $header.Controls.Add($lblSub)
 
 $script:counter = [Windows.Forms.Label]::new()
-$script:counter.Size      = [Drawing.Size]::new(170, 24)
-$script:counter.Location  = [Drawing.Point]::new($W_FORM - 186, 19)
+$script:counter.Size      = [Drawing.Size]::new(180, 24)
+$script:counter.Location  = [Drawing.Point]::new($W_FORM - 196, 19)
 $script:counter.Font      = $FONT_CNT
 $script:counter.ForeColor = $MUTED
 $script:counter.TextAlign = "MiddleRight"
@@ -287,7 +290,7 @@ $bannerLine.BackColor = $ACCENT
 $banner.Controls.Add($bannerLine)
 
 $bannerTitle = [Windows.Forms.Label]::new()
-$bannerTitle.Text      = "Marca las caracteristicas que quieres DESHABILITAR"
+$bannerTitle.Text      = "Apaga el interruptor de lo que quieras DESACTIVAR"
 $bannerTitle.Font      = $FONT_BTN
 $bannerTitle.ForeColor = $FG
 $bannerTitle.Location  = [Drawing.Point]::new(13, 7)
@@ -295,7 +298,7 @@ $bannerTitle.AutoSize  = $true
 $banner.Controls.Add($bannerTitle)
 
 $bannerSub = [Windows.Forms.Label]::new()
-$bannerSub.Text      = "Aplicar desactiva lo marcado; desmarcar y Aplicar lo reactiva"
+$bannerSub.Text      = "Todo viene activado por defecto. Apaga lo que no quieras y pulsa Aplicar"
 $bannerSub.Font      = $FONT_DESC
 $bannerSub.ForeColor = $MUTED
 $bannerSub.Location  = [Drawing.Point]::new(13, 25)
@@ -304,12 +307,13 @@ $banner.Controls.Add($bannerSub)
 
 $yGlobal += 44 + 8
 
-# ── Filas de politicas (listado unico) ──
+# ── Filas de caracteristicas (listado unico) ──
 $i = 0
 foreach ($name in $POLICIES.Keys) {
     $p = $POLICIES[$name]
     $rowBg = if (($i % 2) -eq 0) { $CARD } else { $CARD2 }
     $i++
+    $script:state[$name] = $true   # por defecto activada (ON)
 
     $row = [Windows.Forms.Panel]::new()
     $row.Size      = [Drawing.Size]::new($W_ROW, $H_ROW)
@@ -380,11 +384,11 @@ foreach ($name in $POLICIES.Keys) {
 
 # ── Botonera ──
 $btnY = 560; $btnH = 36
-$btnRefresh   = New-Button "Actualizar" 16  $btnY 92  $btnH
-$btnSelectAll = New-Button "Sel. todo"  116 $btnY 92  $btnH
-$btnClear     = New-Button "Limpiar"    216 $btnY 92  $btnH
-$btnApply     = New-Button "Aplicar"    316 $btnY 118 $btnH -Primary
-$form.Controls.AddRange(@($btnRefresh, $btnSelectAll, $btnClear, $btnApply))
+$btnRefresh   = New-Button "Actualizar"   16  $btnY 92  $btnH
+$btnEnableAll = New-Button "Activar todo"  116 $btnY 92  $btnH
+$btnDisableAll= New-Button "Desact. todo"  216 $btnY 92  $btnH
+$btnApply     = New-Button "Aplicar"       316 $btnY 118 $btnH -Primary
+$form.Controls.AddRange(@($btnRefresh, $btnEnableAll, $btnDisableAll, $btnApply))
 
 # ── Barra de estado ──
 $script:status = [Windows.Forms.Label]::new()
@@ -399,26 +403,26 @@ $form.Controls.Add($script:status)
 Update-CurrentState
 
 # ── Eventos ──
-$btnSelectAll.Add_Click({
+$btnEnableAll.Add_Click({
     foreach ($n in @($script:state.Keys)) {
         $script:state[$n] = $true
-        $script:labels[$n].ForeColor = $GREEN
-        $script:toggles[$n].Invalidate()
-    }
-    Update-Counter
-    $script:status.ForeColor = $MUTED
-    $script:status.Text = "Todas las caracteristicas seleccionadas."
-})
-
-$btnClear.Add_Click({
-    foreach ($n in @($script:state.Keys)) {
-        $script:state[$n] = $false
         $script:labels[$n].ForeColor = $FG
         $script:toggles[$n].Invalidate()
     }
     Update-Counter
     $script:status.ForeColor = $MUTED
-    $script:status.Text = "Seleccion limpiada."
+    $script:status.Text = "Todas las caracteristicas activadas."
+})
+
+$btnDisableAll.Add_Click({
+    foreach ($n in @($script:state.Keys)) {
+        $script:state[$n] = $false
+        $script:labels[$n].ForeColor = $MUTED
+        $script:toggles[$n].Invalidate()
+    }
+    Update-Counter
+    $script:status.ForeColor = $MUTED
+    $script:status.Text = "Todas marcadas para desactivar."
 })
 
 $btnRefresh.Add_Click({
@@ -428,11 +432,11 @@ $btnRefresh.Add_Click({
 })
 
 $btnApply.Add_Click({
-    $ok, $fail, $removed = Set-Policies
+    $disabled, $fail, $reenabled = Set-Policies
     Update-CurrentState
-    $msg = "Aplicadas $ok politicas"
-    if ($removed -gt 0) { $msg += ", eliminadas $removed" }
-    if ($fail -gt 0)    { $msg += ", $fail errores" }
+    $msg = "$disabled desactivadas"
+    if ($reenabled -gt 0) { $msg += ", $reenabled reactivadas" }
+    if ($fail -gt 0)      { $msg += ", $fail errores" }
     $msg += ". Reinicia $BROWSER para que surtan efecto."
     $script:status.ForeColor = if ($fail -gt 0) { $RED } else { $GREEN }
     $script:status.Text = $msg
