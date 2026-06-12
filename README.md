@@ -64,7 +64,7 @@ powershell -ExecutionPolicy Bypass -File .\BraveControl.ps1
 | Lector rápido | Deshabilita el modo lectura |
 | P3A (análisis de producto) | Deshabilita la telemetría de producto |
 | Ping de uso diario | Deshabilita los pings de estadísticas |
-| Hablar (Talk) | Deshabilita Brave Talk |
+| Videollamada | Deshabilita Brave Talk |
 | Tor | Deshabilita el modo Tor |
 | VPN | Deshabilita Brave VPN |
 | Monedero + Web3 | Deshabilita Brave Wallet y funciones Web3 |
