@@ -57,7 +57,7 @@ $FONT_CNT   = [Drawing.Font]::new("Segoe UI", 9, [Drawing.FontStyle]::Bold)
 $FONT_STAT  = [Drawing.Font]::new("Segoe UI", 7.75)
 
 # ─── Geometria ───────────────────────────────────────────────────────────────
-$W_FORM = 462; $H_FORM = 678
+$W_FORM = 462; $H_FORM = 632
 $W_PANEL = 418
 $W_ROW = 392; $X_ROW = 6; $H_ROW = 46
 $TOG_W = 40; $TOG_H = 22
@@ -276,37 +276,6 @@ $form.Controls.Add($scrollPanel)
 
 $yGlobal = 8
 
-# ── Banner de instruccion ──
-$banner = [Windows.Forms.Panel]::new()
-$banner.Size      = [Drawing.Size]::new($W_ROW, 44)
-$banner.Location  = [Drawing.Point]::new($X_ROW, $yGlobal)
-$banner.BackColor = $GRPBG
-$scrollPanel.Controls.Add($banner)
-
-$bannerLine = [Windows.Forms.Panel]::new()
-$bannerLine.Size      = [Drawing.Size]::new(3, 44)
-$bannerLine.Location  = [Drawing.Point]::new(0, 0)
-$bannerLine.BackColor = $ACCENT
-$banner.Controls.Add($bannerLine)
-
-$bannerTitle = [Windows.Forms.Label]::new()
-$bannerTitle.Text      = "Apaga el interruptor de lo que quieras DESACTIVAR"
-$bannerTitle.Font      = $FONT_BTN
-$bannerTitle.ForeColor = $FG
-$bannerTitle.Location  = [Drawing.Point]::new(13, 7)
-$bannerTitle.AutoSize  = $true
-$banner.Controls.Add($bannerTitle)
-
-$bannerSub = [Windows.Forms.Label]::new()
-$bannerSub.Text      = "Todo viene activado por defecto. Apaga lo que no quieras y pulsa Aplicar"
-$bannerSub.Font      = $FONT_DESC
-$bannerSub.ForeColor = $MUTED
-$bannerSub.Location  = [Drawing.Point]::new(13, 25)
-$bannerSub.AutoSize  = $true
-$banner.Controls.Add($bannerSub)
-
-$yGlobal += 44 + 8
-
 # ── Filas de caracteristicas (listado unico) ──
 $i = 0
 foreach ($name in $POLICIES.Keys) {
@@ -392,7 +361,7 @@ $form.Controls.AddRange(@($btnRefresh, $btnEnableAll, $btnDisableAll, $btnApply)
 
 # ── Barra de estado ──
 $script:status = [Windows.Forms.Label]::new()
-$script:status.Location  = [Drawing.Point]::new(16, 616)
+$script:status.Location  = [Drawing.Point]::new(16, 606)
 $script:status.Size      = [Drawing.Size]::new($W_PANEL, 18)
 $script:status.ForeColor = $MUTED
 $script:status.Font      = $FONT_STAT
