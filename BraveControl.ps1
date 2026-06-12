@@ -240,14 +240,14 @@ $form.FormBorderStyle = "FixedDialog"
 
 # ── Cabecera ──
 $header = [Windows.Forms.Panel]::new()
-$header.Size      = [Drawing.Size]::new($W_FORM, 60)
+$header.Size      = [Drawing.Size]::new($W_FORM, 62)
 $header.Location  = [Drawing.Point]::new(0, 0)
 $header.BackColor = $CARD
 $form.Controls.Add($header)
 
 $accentBar = [Windows.Forms.Panel]::new()
-$accentBar.Size      = [Drawing.Size]::new(4, 30)
-$accentBar.Location  = [Drawing.Point]::new(16, 15)
+$accentBar.Size      = [Drawing.Size]::new(4, 34)
+$accentBar.Location  = [Drawing.Point]::new(16, 14)
 $accentBar.BackColor = $ACCENT
 $header.Controls.Add($accentBar)
 
@@ -255,7 +255,7 @@ $lblTitle = [Windows.Forms.Label]::new()
 $lblTitle.Text      = $APP_NAME
 $lblTitle.Font      = $FONT_TITLE
 $lblTitle.ForeColor = $FG
-$lblTitle.Location  = [Drawing.Point]::new(28, 9)
+$lblTitle.Location  = [Drawing.Point]::new(28, 8)
 $lblTitle.AutoSize  = $true
 $header.Controls.Add($lblTitle)
 
@@ -263,13 +263,13 @@ $lblSub = [Windows.Forms.Label]::new()
 $lblSub.Text      = $APP_SUB
 $lblSub.Font      = $FONT_SUB
 $lblSub.ForeColor = $MUTED
-$lblSub.Location  = [Drawing.Point]::new(30, 35)
+$lblSub.Location  = [Drawing.Point]::new(30, 39)
 $lblSub.AutoSize  = $true
 $header.Controls.Add($lblSub)
 
 $script:counter = [Windows.Forms.Label]::new()
 $script:counter.Size      = [Drawing.Size]::new(150, 24)
-$script:counter.Location  = [Drawing.Point]::new($W_FORM - 166, 18)
+$script:counter.Location  = [Drawing.Point]::new($W_FORM - 166, 19)
 $script:counter.Font      = $FONT_CNT
 $script:counter.ForeColor = $MUTED
 $script:counter.TextAlign = "MiddleRight"
@@ -278,19 +278,51 @@ $header.Controls.Add($script:counter)
 # Franja de acento bajo la cabecera
 $accentStrip = [Windows.Forms.Panel]::new()
 $accentStrip.Size      = [Drawing.Size]::new($W_FORM, 2)
-$accentStrip.Location  = [Drawing.Point]::new(0, 60)
+$accentStrip.Location  = [Drawing.Point]::new(0, 62)
 $accentStrip.BackColor = $ACCENT
 $form.Controls.Add($accentStrip)
 
 # ── Panel scrollable ──
 $scrollPanel = [Windows.Forms.Panel]::new()
-$scrollPanel.Location   = [Drawing.Point]::new(16, 72)
-$scrollPanel.Size       = [Drawing.Size]::new($W_PANEL, 476)
+$scrollPanel.Location   = [Drawing.Point]::new(16, 74)
+$scrollPanel.Size       = [Drawing.Size]::new($W_PANEL, 474)
 $scrollPanel.BackColor  = $CARD
 $scrollPanel.AutoScroll = $true
 $form.Controls.Add($scrollPanel)
 
 $yGlobal = 8
+
+# ── Banner de instruccion ──
+$banner = [Windows.Forms.Panel]::new()
+$banner.Size      = [Drawing.Size]::new($W_ROW, 44)
+$banner.Location  = [Drawing.Point]::new($X_ROW, $yGlobal)
+$banner.BackColor = $GRPBG
+$scrollPanel.Controls.Add($banner)
+
+$bannerLine = [Windows.Forms.Panel]::new()
+$bannerLine.Size      = [Drawing.Size]::new(3, 44)
+$bannerLine.Location  = [Drawing.Point]::new(0, 0)
+$bannerLine.BackColor = $ACCENT
+$banner.Controls.Add($bannerLine)
+
+$bannerTitle = [Windows.Forms.Label]::new()
+$bannerTitle.Text      = "Marca las caracteristicas que quieres DESHABILITAR"
+$bannerTitle.Font      = $FONT_BTN
+$bannerTitle.ForeColor = $FG
+$bannerTitle.Location  = [Drawing.Point]::new(13, 7)
+$bannerTitle.AutoSize  = $true
+$banner.Controls.Add($bannerTitle)
+
+$bannerSub = [Windows.Forms.Label]::new()
+$bannerSub.Text      = "Aplicar desactiva lo marcado; desmarcar y Aplicar lo reactiva"
+$bannerSub.Font      = $FONT_DESC
+$bannerSub.ForeColor = $MUTED
+$bannerSub.Location  = [Drawing.Point]::new(13, 25)
+$bannerSub.AutoSize  = $true
+$banner.Controls.Add($bannerSub)
+
+$yGlobal += 44 + 8
+
 foreach ($group in $GROUPS.Keys) {
 
     # Cabecera de grupo
@@ -405,7 +437,7 @@ $script:status.Location  = [Drawing.Point]::new(16, 616)
 $script:status.Size      = [Drawing.Size]::new($W_PANEL, 18)
 $script:status.ForeColor = $MUTED
 $script:status.Font      = $FONT_STAT
-$script:status.Text      = "Listo."
+$script:status.Text      = ""
 $form.Controls.Add($script:status)
 
 # ── Estado inicial ──
