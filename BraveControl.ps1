@@ -96,7 +96,7 @@ $GROUPS = [ordered]@{
         "Videollamada"              = @{ Key = "BraveTalkDisabled";          Val = 1; Opp = 0; T = "DWord"; Desc = "Desactiva Brave Talk (videollamadas)" }
         "Tor"                       = @{ Key = "TorDisabled";                Val = 1; Opp = 0; T = "DWord"; Desc = "Desactiva las ventanas privadas con Tor" }
         "VPN"                       = @{ Key = "BraveVPNDisabled";           Val = 1; Opp = 0; T = "DWord"; Desc = "Desactiva Brave VPN" }
-        "Alias de correo (Nightly)" = @{ Key = "BraveEmailAliasesEnabled";   Val = 0; Opp = 1; T = "DWord"; Desc = "Desactiva los alias de correo (solo Nightly)" }
+        "Alias de correo"           = @{ Key = "BraveEmailAliasesEnabled";   Val = 0; Opp = 1; T = "DWord"; Desc = "Desactiva los alias de correo" }
     }
 }
 
