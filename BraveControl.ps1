@@ -24,6 +24,23 @@ if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdenti
 Add-Type -AssemblyName System.Windows.Forms, System.Drawing
 [Windows.Forms.Application]::EnableVisualStyles()
 
+# ─── Scrollbar negro y minimalista (tema nativo DarkMode_Explorer) ────────────
+if (-not ("Native.Theme" -as [type])) {
+Add-Type -Namespace Native -Name Theme -MemberDefinition @'
+[System.Runtime.InteropServices.DllImport("uxtheme.dll", CharSet = System.Runtime.InteropServices.CharSet.Unicode)]
+public static extern int SetWindowTheme(System.IntPtr hWnd, string pszSubAppName, string pszSubIdList);
+'@
+}
+
+function Set-DarkScroll {
+    param($ctrl)
+    try {
+        if ($ctrl.IsHandleCreated) {
+            [Native.Theme]::SetWindowTheme($ctrl.Handle, "DarkMode_Explorer", $null) | Out-Null
+        }
+    } catch {}
+}
+
 # ─── Identidad de la app ─────────────────────────────────────────────────────
 $REG_PATH  = "HKLM:\SOFTWARE\Policies\BraveSoftware\Brave"
 $APP_TITLE = "BraveControl - dprojects.org"
@@ -421,5 +438,8 @@ $btnApply.Add_Click({
     $script:status.ForeColor = if ($fail -gt 0) { $RED } else { $GREEN }
     $script:status.Text = $msg
 })
+
+# Aplicar el scrollbar oscuro al panel una vez creado su handle
+$form.Add_Shown({ Set-DarkScroll $scrollPanel })
 
 [void]$form.ShowDialog()
