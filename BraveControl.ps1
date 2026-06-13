@@ -1,5 +1,5 @@
 # BraveControl - Gestor grafico de politicas de Brave via registro de Windows
-# Autor: xdoofy92 | https://github.com/xdoofy92
+# Autor: Daniel Rodriguez | https://xdoofy92.com
 
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 $OutputEncoding = [System.Text.Encoding]::UTF8
