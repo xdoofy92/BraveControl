@@ -24,23 +24,6 @@ if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdenti
 Add-Type -AssemblyName System.Windows.Forms, System.Drawing
 [Windows.Forms.Application]::EnableVisualStyles()
 
-# ─── Scrollbar negro y minimalista (tema nativo DarkMode_Explorer) ────────────
-if (-not ("Native.Theme" -as [type])) {
-Add-Type -Namespace Native -Name Theme -MemberDefinition @'
-[System.Runtime.InteropServices.DllImport("uxtheme.dll", CharSet = System.Runtime.InteropServices.CharSet.Unicode)]
-public static extern int SetWindowTheme(System.IntPtr hWnd, string pszSubAppName, string pszSubIdList);
-'@
-}
-
-function Set-DarkScroll {
-    param($ctrl)
-    try {
-        if ($ctrl.IsHandleCreated) {
-            [Native.Theme]::SetWindowTheme($ctrl.Handle, "DarkMode_Explorer", $null) | Out-Null
-        }
-    } catch {}
-}
-
 # ─── Identidad de la app ─────────────────────────────────────────────────────
 $REG_PATH  = "HKLM:\SOFTWARE\Policies\BraveSoftware\Brave"
 $APP_TITLE = "BraveControl - dprojects.org"
@@ -286,13 +269,97 @@ $accentStrip.Location  = [Drawing.Point]::new(0, 62)
 $accentStrip.BackColor = $ACCENT
 $form.Controls.Add($accentStrip)
 
-# ── Panel scrollable ──
+# ── Panel scrollable con scrollbar oscuro personalizado (todo negro) ──
+$SBW       = [Windows.Forms.SystemInformation]::VerticalScrollBarWidth  # ancho del scrollbar nativo (se oculta)
+$VBAR_W    = 8                                                          # ancho de nuestro scrollbar
+$TRACK_COL = $BG                                                        # pista/fondo: negro
+$THUMB_COL = [Drawing.Color]::FromArgb(64, 64, 72)                      # pulgar en reposo
+$THUMB_HOV = [Drawing.Color]::FromArgb(98, 98, 110)                     # pulgar en hover/arrastre
+
+# Contenedor que recorta el scrollbar nativo del panel
+$scrollHost = [Windows.Forms.Panel]::new()
+$scrollHost.Location  = [Drawing.Point]::new(16, 74)
+$scrollHost.Size      = [Drawing.Size]::new($W_PANEL, 474)
+$scrollHost.BackColor = $CARD
+$form.Controls.Add($scrollHost)
+
+# Panel real con AutoScroll; más ancho para que su scrollbar nativo quede fuera (recortado por el host)
 $scrollPanel = [Windows.Forms.Panel]::new()
-$scrollPanel.Location   = [Drawing.Point]::new(16, 74)
-$scrollPanel.Size       = [Drawing.Size]::new($W_PANEL, 474)
+$scrollPanel.Location   = [Drawing.Point]::new(0, 0)
+$scrollPanel.Size       = [Drawing.Size]::new($W_PANEL + $SBW, 474)
 $scrollPanel.BackColor  = $CARD
 $scrollPanel.AutoScroll = $true
-$form.Controls.Add($scrollPanel)
+$scrollHost.Controls.Add($scrollPanel)
+
+# Pista del scrollbar (negra) y pulgar (gris oscuro)
+$vbar = [Windows.Forms.Panel]::new()
+$vbar.Size      = [Drawing.Size]::new($VBAR_W, 474)
+$vbar.Location  = [Drawing.Point]::new($W_PANEL - $VBAR_W, 0)
+$vbar.BackColor = $TRACK_COL
+$scrollHost.Controls.Add($vbar)
+$vbar.BringToFront()
+
+$vthumb = [Windows.Forms.Panel]::new()
+$vthumb.Size      = [Drawing.Size]::new($VBAR_W, 40)
+$vthumb.Location  = [Drawing.Point]::new(0, 0)
+$vthumb.BackColor = $THUMB_COL
+$vthumb.Cursor    = [Windows.Forms.Cursors]::Hand
+$vbar.Controls.Add($vthumb)
+
+$script:vDrag = $false
+$script:vDragStartY = 0
+$script:vDragStartScrolled = 0
+
+function Update-VScroll {
+    $view    = $scrollPanel.ClientSize.Height
+    $content = $scrollPanel.DisplayRectangle.Height
+    if ($view -le 0 -or $content -le $view) { $vbar.Visible = $false; return }
+    $vbar.Visible = $true
+    $trackH = $vbar.Height
+    $thumbH = [int][math]::Max(28, [math]::Round($trackH * $view / $content))
+    if ($thumbH -gt $trackH) { $thumbH = $trackH }
+    $maxScroll = $content - $view
+    $scrolled  = - $scrollPanel.AutoScrollPosition.Y
+    if ($scrolled -lt 0) { $scrolled = 0 } elseif ($scrolled -gt $maxScroll) { $scrolled = $maxScroll }
+    $thumbY = if ($maxScroll -gt 0) { [int][math]::Round(($trackH - $thumbH) * $scrolled / $maxScroll) } else { 0 }
+    if ($vthumb.Height -ne $thumbH) { $vthumb.Height = $thumbH }
+    if ($vthumb.Top    -ne $thumbY) { $vthumb.Top    = $thumbY }
+}
+
+$vthumb.Add_MouseEnter({ if (-not $script:vDrag) { $vthumb.BackColor = $THUMB_HOV } })
+$vthumb.Add_MouseLeave({ if (-not $script:vDrag) { $vthumb.BackColor = $THUMB_COL } })
+$vthumb.Add_MouseDown({
+    $script:vDrag = $true
+    $script:vDragStartY = [Windows.Forms.Cursor]::Position.Y
+    $script:vDragStartScrolled = - $scrollPanel.AutoScrollPosition.Y
+    $vthumb.BackColor = $THUMB_HOV
+})
+$vthumb.Add_MouseUp({
+    $script:vDrag = $false
+    $vthumb.BackColor = $THUMB_COL
+})
+$vthumb.Add_MouseMove({
+    if (-not $script:vDrag) { return }
+    $view    = $scrollPanel.ClientSize.Height
+    $content = $scrollPanel.DisplayRectangle.Height
+    $maxScroll = $content - $view
+    if ($maxScroll -le 0) { return }
+    $denom = $vbar.Height - $vthumb.Height
+    if ($denom -le 0) { return }
+    $dy = [Windows.Forms.Cursor]::Position.Y - $script:vDragStartY
+    $newScrolled = $script:vDragStartScrolled + [int][math]::Round($dy * $maxScroll / $denom)
+    if ($newScrolled -lt 0) { $newScrolled = 0 } elseif ($newScrolled -gt $maxScroll) { $newScrolled = $maxScroll }
+    $scrollPanel.AutoScrollPosition = [Drawing.Point]::new(0, $newScrolled)
+    Update-VScroll
+})
+
+# El thumb se sincroniza con la rueda y el arrastre nativo via timer + evento Scroll
+$scrollPanel.Add_Scroll({ Update-VScroll })
+$vtimer = [Windows.Forms.Timer]::new()
+$vtimer.Interval = 60
+$vtimer.Add_Tick({ Update-VScroll })
+$vtimer.Start()
+$form.Add_FormClosed({ $vtimer.Stop(); $vtimer.Dispose() })
 
 $yGlobal = 8
 
@@ -439,7 +506,7 @@ $btnApply.Add_Click({
     $script:status.Text = $msg
 })
 
-# Aplicar el scrollbar oscuro al panel una vez creado su handle
-$form.Add_Shown({ Set-DarkScroll $scrollPanel })
+# Refresco inicial del scrollbar personalizado una vez mostrado el formulario
+$form.Add_Shown({ Update-VScroll })
 
 [void]$form.ShowDialog()
