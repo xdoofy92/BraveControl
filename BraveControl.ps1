@@ -1,4 +1,4 @@
-﻿# BraveControl - Gestor grafico de politicas de Brave via registro de Windows
+# BraveControl - Gestor grafico de politicas de Brave via registro de Windows
 # Autor: Daniel Rodriguez | https://xdoofy92.com
 
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
