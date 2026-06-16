@@ -239,17 +239,41 @@ $header.Location  = [Drawing.Point]::new(0, 0)
 $header.BackColor = $CARD
 $form.Controls.Add($header)
 
-$accentBar = [Windows.Forms.Panel]::new()
-$accentBar.Size      = [Drawing.Size]::new(4, 34)
-$accentBar.Location  = [Drawing.Point]::new(16, 14)
-$accentBar.BackColor = $ACCENT
-$header.Controls.Add($accentBar)
+# ── Logo de Brave dibujado con GDI+ (leon estilizado en naranja, sin dependencias) ──
+$logo = [Windows.Forms.Panel]::new()
+$logo.Size      = [Drawing.Size]::new(36, 36)
+$logo.Location  = [Drawing.Point]::new(16, 13)
+$logo.BackColor = $CARD
+$logo.Add_Paint({
+    param($s, $e)
+    $g = $e.Graphics
+    $g.SmoothingMode = [Drawing.Drawing2D.SmoothingMode]::AntiAlias
+    $k = [math]::Min($s.Width, $s.Height) / 36.0
+    $P = { param($px, $py) [Drawing.PointF]::new([float]($px * $k), [float]($py * $k)) }
+    # Silueta de la cabeza del leon (orejas arriba, menton abajo)
+    $head = [Drawing.PointF[]]@(
+        (& $P 5 7), (& $P 14 11), (& $P 18 8), (& $P 22 11), (& $P 31 7),
+        (& $P 31 18), (& $P 25 28), (& $P 18 33), (& $P 11 28), (& $P 5 18)
+    )
+    $path = New-Object Drawing.Drawing2D.GraphicsPath
+    $path.AddPolygon($head)
+    $o1 = [Drawing.Color]::FromArgb(255, 120, 80)   # naranja claro (arriba)
+    $o2 = [Drawing.Color]::FromArgb(231, 73, 30)    # naranja Brave (abajo)
+    $lg = New-Object Drawing.Drawing2D.LinearGradientBrush ($path.GetBounds(), $o1, $o2, [float]90)
+    $g.FillPath($lg, $path)
+    # Hocico interior (un tono mas oscuro) para dar profundidad
+    $muzzle = [Drawing.PointF[]]@( (& $P 18 19), (& $P 23 28), (& $P 18 31), (& $P 13 28) )
+    $mb = New-Object Drawing.SolidBrush ([Drawing.Color]::FromArgb(200, 55, 20))
+    $g.FillPolygon($mb, $muzzle)
+    $lg.Dispose(); $mb.Dispose(); $path.Dispose()
+})
+$header.Controls.Add($logo)
 
 $lblTitle = [Windows.Forms.Label]::new()
 $lblTitle.Text      = $APP_NAME
 $lblTitle.Font      = $FONT_TITLE
 $lblTitle.ForeColor = $FG
-$lblTitle.Location  = [Drawing.Point]::new(28, 8)
+$lblTitle.Location  = [Drawing.Point]::new(60, 8)
 $lblTitle.AutoSize  = $true
 $header.Controls.Add($lblTitle)
 
@@ -257,7 +281,7 @@ $lblSub = [Windows.Forms.Label]::new()
 $lblSub.Text      = $APP_SUB
 $lblSub.Font      = $FONT_SUB
 $lblSub.ForeColor = $MUTED
-$lblSub.Location  = [Drawing.Point]::new(30, 39)
+$lblSub.Location  = [Drawing.Point]::new(62, 39)
 $lblSub.AutoSize  = $true
 $header.Controls.Add($lblSub)
 
