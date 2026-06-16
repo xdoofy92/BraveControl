@@ -28,6 +28,7 @@ Add-Type -AssemblyName System.Windows.Forms, System.Drawing
 $REG_PATH  = "HKLM:\SOFTWARE\Policies\BraveSoftware\Brave"
 $APP_TITLE = "BraveControl - dprojects.org"
 $APP_NAME  = "BraveControl"
+$APP_VER   = "v1.0"
 $APP_SUB   = "Politicas de Brave via registro"
 $BROWSER   = "Brave"
 
@@ -256,6 +257,14 @@ $lblTitle.ForeColor = $FG
 $lblTitle.Location  = [Drawing.Point]::new(60, 8)
 $lblTitle.AutoSize  = $true
 $header.Controls.Add($lblTitle)
+
+$lblVer = [Windows.Forms.Label]::new()
+$lblVer.Text      = $APP_VER
+$lblVer.Font      = $FONT_SUB
+$lblVer.ForeColor = $ACCENT
+$lblVer.AutoSize  = $true
+$lblVer.Location  = [Drawing.Point]::new(60 + $lblTitle.PreferredWidth + 6, 16)
+$header.Controls.Add($lblVer)
 
 $lblSub = [Windows.Forms.Label]::new()
 $lblSub.Text      = $APP_SUB
