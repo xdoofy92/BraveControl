@@ -77,14 +77,14 @@ $W_TXT = $X_TOG - $X_TXT - 10
 $POLICIES = [ordered]@{
     "Leo (AI Chat)"              = @{ Key = "BraveAIChatEnabled";         Val = 0; Opp = 1; T = "DWord"; Desc = "Asistente de IA Leo integrado" }
     "Noticias"                   = @{ Key = "BraveNewsDisabled";          Val = 1; Opp = 0; T = "DWord"; Desc = "Feed de noticias Brave News" }
-    "Lista de reproduccion"      = @{ Key = "BravePlaylistEnabled";       Val = 0; Opp = 1; T = "DWord"; Desc = "Funcion Playlist" }
-    "Lector rapido"              = @{ Key = "BraveSpeedreaderEnabled";    Val = 0; Opp = 1; T = "DWord"; Desc = "Modo de lectura rapida (Speedreader)" }
+    "Reproductor"                = @{ Key = "BravePlaylistEnabled";       Val = 0; Opp = 1; T = "DWord"; Desc = "Funcion Playlist" }
+    "Speedreader"                = @{ Key = "BraveSpeedreaderEnabled";    Val = 0; Opp = 1; T = "DWord"; Desc = "Modo de lectura rapida (Speedreader)" }
     "Wayback Machine"            = @{ Key = "BraveWaybackMachineEnabled"; Val = 0; Opp = 1; T = "DWord"; Desc = "Integracion con Wayback Machine" }
     "P3A (analisis de producto)" = @{ Key = "BraveP3AEnabled";           Val = 0; Opp = 1; T = "DWord"; Desc = "Telemetria anonima de producto (P3A)" }
     "Ping de uso diario"         = @{ Key = "BraveStatsPingEnabled";     Val = 0; Opp = 1; T = "DWord"; Desc = "Ping diario de estadisticas de uso" }
-    "Web Discovery"              = @{ Key = "BraveWebDiscoveryEnabled";  Val = 0; Opp = 1; T = "DWord"; Desc = "Envio de datos de Web Discovery" }
-    "Recompensas + Brave Ads"    = @{ Key = "BraveRewardsDisabled";      Val = 1; Opp = 0; T = "DWord"; Desc = "Brave Rewards y los anuncios" }
-    "Monedero + Web3"            = @{ Key = "BraveWalletDisabled";       Val = 1; Opp = 0; T = "DWord"; Desc = "Brave Wallet y las funciones Web3" }
+    "Web Discovery Project"      = @{ Key = "BraveWebDiscoveryEnabled";  Val = 0; Opp = 1; T = "DWord"; Desc = "Envio de datos de Web Discovery" }
+    "Brave Rewards"              = @{ Key = "BraveRewardsDisabled";      Val = 1; Opp = 0; T = "DWord"; Desc = "Brave Rewards y los anuncios" }
+    "Wallet + Web3"              = @{ Key = "BraveWalletDisabled";       Val = 1; Opp = 0; T = "DWord"; Desc = "Brave Wallet y las funciones Web3" }
     "Videollamada"               = @{ Key = "BraveTalkDisabled";         Val = 1; Opp = 0; T = "DWord"; Desc = "Brave Talk (videollamadas)" }
     "Tor"                        = @{ Key = "TorDisabled";               Val = 1; Opp = 0; T = "DWord"; Desc = "Ventanas privadas con Tor" }
     "VPN"                        = @{ Key = "BraveVPNDisabled";          Val = 1; Opp = 0; T = "DWord"; Desc = "Brave VPN" }
