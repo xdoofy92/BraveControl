@@ -88,6 +88,13 @@ $POLICIES = [ordered]@{
     "Videollamada"               = @{ Key = "BraveTalkDisabled";         Val = 1; Opp = 0; T = "DWord"; Desc = "Brave Talk (videollamadas)" }
     "Tor"                        = @{ Key = "TorDisabled";               Val = 1; Opp = 0; T = "DWord"; Desc = "Ventanas privadas con Tor" }
     "VPN"                        = @{ Key = "BraveVPNDisabled";          Val = 1; Opp = 0; T = "DWord"; Desc = "Brave VPN" }
+    # ── Privacidad generica (politicas Chromium que Brave respeta) ──
+    "Sugerencias de busqueda"    = @{ Key = "SearchSuggestEnabled";       Val = 0; Opp = 1; T = "DWord"; Desc = "Sugerencias al escribir (envian datos al buscador)" }
+    "Gestor de contrasenas"      = @{ Key = "PasswordManagerEnabled";     Val = 0; Opp = 1; T = "DWord"; Desc = "Guardado y autocompletado de contrasenas" }
+    "Autocompletar direcciones"  = @{ Key = "AutofillAddressEnabled";     Val = 0; Opp = 1; T = "DWord"; Desc = "Autocompletado de direcciones y contacto" }
+    "Autocompletar tarjetas"     = @{ Key = "AutofillCreditCardEnabled";  Val = 0; Opp = 1; T = "DWord"; Desc = "Guardado y autocompletado de tarjetas" }
+    "Modo en segundo plano"      = @{ Key = "BackgroundModeEnabled";      Val = 0; Opp = 1; T = "DWord"; Desc = "Brave sigue ejecutandose al cerrar la ventana" }
+    "Prediccion de red (prefetch)" = @{ Key = "NetworkPredictionOptions"; Val = 2; Opp = 0; T = "DWord"; Desc = "Precarga de paginas y resolucion DNS anticipada" }
 }
 
 # ─── Estado en memoria ───────────────────────────────────────────────────────

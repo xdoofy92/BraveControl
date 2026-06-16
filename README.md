@@ -10,7 +10,7 @@
 
 ![PowerShell](https://img.shields.io/badge/PowerShell-5.1%2B-5391FE?style=for-the-badge&logo=powershell&logoColor=white)
 ![Windows](https://img.shields.io/badge/Windows-10%20%7C%2011-0078D6?style=for-the-badge&logo=windows&logoColor=white)
-![Brave](https://img.shields.io/badge/Brave-13_interruptores-FB542B?style=for-the-badge&logo=brave&logoColor=white)
+![Brave](https://img.shields.io/badge/Brave-19_interruptores-FB542B?style=for-the-badge&logo=brave&logoColor=white)
 ![License](https://img.shields.io/badge/Licencia-MIT-3DA639?style=for-the-badge)
 
 </div>
@@ -38,7 +38,7 @@ La app refleja el **estado real** de cada característica con un interruptor est
 | 🟢 **Encendido** | verde, texto normal | La característica está **activa** (valor por defecto del navegador) |
 | ⚪ **Apagado** | gris, texto atenuado | Se **desactivará** al pulsar **Aplicar** (escribe la política en el registro) |
 
-El contador de la cabecera (**`0 / 13 a Desactivar`**) te dice cuántas tienes marcadas para apagar. Al pulsar **Aplicar**, los cambios se guardan en:
+El contador de la cabecera (**`0 / 19 a Desactivar`**) te dice cuántas tienes marcadas para apagar. Al pulsar **Aplicar**, los cambios se guardan en:
 
 ```
 HKLM:\SOFTWARE\Policies\BraveSoftware\Brave
@@ -59,7 +59,9 @@ HKLM:\SOFTWARE\Policies\BraveSoftware\Brave
 
 ## 🧩 Características que puedes desactivar
 
-> 13 interruptores, todos encendidos por defecto.
+> 19 interruptores, todos encendidos por defecto.
+
+### 🦁 Funciones propias de Brave
 
 | Característica | Qué apaga | Clave de registro |
 |:--------------|:----------|:------------------|
@@ -68,14 +70,30 @@ HKLM:\SOFTWARE\Policies\BraveSoftware\Brave
 | 🎵 Lista de reproducción | Función Playlist | `BravePlaylistEnabled` |
 | 📖 Lector rápido | Modo de lectura rápida (Speedreader) | `BraveSpeedreaderEnabled` |
 | 🕰️ Wayback Machine | Integración con Wayback Machine | `BraveWaybackMachineEnabled` |
-| 📊 P3A | Telemetría anónima de producto | `BraveP3AEnabled` |
-| 📡 Ping de uso diario | Ping diario de estadísticas de uso | `BraveStatsPingEnabled` |
-| 🔎 Web Discovery | Envío de datos de Web Discovery | `BraveWebDiscoveryEnabled` |
 | 💰 Recompensas + Brave Ads | Brave Rewards y los anuncios | `BraveRewardsDisabled` |
 | 🪙 Monedero + Web3 | Brave Wallet y funciones Web3 | `BraveWalletDisabled` |
 | 📹 Videollamada | Brave Talk | `BraveTalkDisabled` |
 | 🧅 Tor | Ventanas privadas con Tor | `TorDisabled` |
 | 🛡️ VPN | Brave VPN | `BraveVPNDisabled` |
+
+### 📡 Telemetría de Brave
+
+| Característica | Qué apaga | Clave de registro |
+|:--------------|:----------|:------------------|
+| 📊 P3A | Telemetría anónima de producto | `BraveP3AEnabled` |
+| 📡 Ping de uso diario | Ping diario de estadísticas de uso | `BraveStatsPingEnabled` |
+| 🔎 Web Discovery | Envío de datos de Web Discovery | `BraveWebDiscoveryEnabled` |
+
+### 🕵️ Privacidad genérica (políticas Chromium que Brave respeta)
+
+| Característica | Qué apaga | Clave de registro |
+|:--------------|:----------|:------------------|
+| 🔎 Sugerencias de búsqueda | Sugerencias al escribir (envían datos al buscador) | `SearchSuggestEnabled` |
+| 🔑 Gestor de contraseñas | Guardado y autocompletado de contraseñas | `PasswordManagerEnabled` |
+| 🏠 Autocompletar direcciones | Autocompletado de direcciones y contacto | `AutofillAddressEnabled` |
+| 💳 Autocompletar tarjetas | Guardado y autocompletado de tarjetas | `AutofillCreditCardEnabled` |
+| 🌙 Modo en segundo plano | Brave sigue ejecutándose al cerrar la ventana | `BackgroundModeEnabled` |
+| 🌐 Predicción de red (prefetch) | Precarga de páginas y resolución DNS anticipada | `NetworkPredictionOptions` |
 
 ---
 
