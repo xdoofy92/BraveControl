@@ -10,9 +10,9 @@ if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdenti
     if (-not $PSCommandPath) {
         # Ejecucion remota (irm | iex): descargar y relanzar como admin
         $url = "https://raw.githubusercontent.com/xdoofy92/BraveControl/main/BraveControl.ps1"
-        $scriptContent = Invoke-RestMethod -Uri $url
+        $scriptContent = ([string](Invoke-RestMethod -Uri $url)).TrimStart([char]0xFEFF)
         $tempFile = Join-Path $env:TEMP "BraveControl_$([guid]::NewGuid().ToString('N')).ps1"
-        $scriptContent | Out-File $tempFile -Encoding UTF8
+        [IO.File]::WriteAllText($tempFile, $scriptContent, (New-Object System.Text.UTF8Encoding($false)))
         Start-Process powershell -Verb RunAs -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$tempFile`""
         exit
     } else {
