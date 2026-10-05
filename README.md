@@ -11,7 +11,7 @@
 ![PowerShell](https://img.shields.io/badge/PowerShell-5.1%2B-5391FE?style=for-the-badge&logo=powershell&logoColor=white)
 ![Windows](https://img.shields.io/badge/Windows-10%20%7C%2011-0078D6?style=for-the-badge&logo=windows&logoColor=white)
 ![Brave](https://img.shields.io/badge/Brave-19_interruptores-FB542B?style=for-the-badge&logo=brave&logoColor=white)
-[![Licencia propietaria](https://img.shields.io/badge/Licencia-Propietaria-3DA639?style=for-the-badge)](<LICENSE.txt>)
+[![Licencia MIT](https://img.shields.io/badge/Licencia-MIT-3DA639?style=for-the-badge)](<LICENSE.txt>)
 
 </div>
 
@@ -21,7 +21,7 @@
 
 **BraveControl** es una herramienta gráfica de PowerShell que gestiona las **políticas de empresa de Brave** desde el registro de Windows. En lugar de bucear por `regedit`, te presenta una lista de interruptores: **todo viene encendido** (como en una instalación normal) y tú **apagas lo que quieras desactivar**.
 
-> 💡 Consulta la disponibilidad y las vías de obtención autorizadas en [DProjects](https://dprojects.org/) o contacta con [Daniel Rodriguez](https://xdoofy92.com/). Software propietario, de código cerrado y uso gratuito, también profesional y empresarial, según la [licencia](<LICENSE.txt>).
+> 💡 **Gratuito y de código abierto**, bajo la [licencia MIT](<LICENSE.txt>). Puedes revisar el [código completo](<BraveControl.ps1>), modificarlo y compartirlo. Desarrollado por [Daniel Rodriguez](https://xdoofy92.com/) · [DProjects](https://dprojects.org/).
 
 ---
 
@@ -97,17 +97,22 @@ HKLM:\SOFTWARE\Policies\BraveSoftware\Brave
 
 ### Canales oficiales
 
-Consulta [DProjects](https://dprojects.org/) para conocer las copias oficiales disponibles y sus instrucciones, o solicita información al [autor](https://xdoofy92.com/). Este repositorio contiene un script, no un instalador; esta documentación no afirma que exista un instalador oficial publicado.
+Descarga el [script](<BraveControl.ps1>) desde este repositorio o clona el proyecto. El código es visible y puedes revisarlo antes de ejecutarlo. Consulta también el [sitio oficial](https://dprojects.org/) y la web del [autor](https://xdoofy92.com/). No requiere instalador.
 
-### Uso local — solo con una copia autorizada
+```powershell
+git clone https://github.com/xdoofy92/BraveControl.git
+cd BraveControl
+```
 
-Solo si el titular te ha proporcionado o autorizado expresamente una copia local del [script](<BraveControl.ps1>), abre PowerShell en la carpeta donde la guardaste y ejecuta:
+### Revisar y ejecutar localmente
+
+Revisa el [script](<BraveControl.ps1>) con un editor de texto. Después abre PowerShell en la carpeta donde lo guardaste y ejecuta:
 
 ```powershell
 .\BraveControl.ps1
 ```
 
-Esta indicación no concede permiso para obtener, modificar ni redistribuir el código. El script no es un instalador y no está incluido en el permiso general de redistribución.
+La licencia MIT permite usar, modificar y redistribuir el script, conservando el aviso de copyright y la licencia en las copias o partes sustanciales del software.
 
 ### Pasos típicos
 
@@ -120,7 +125,7 @@ Esta indicación no concede permiso para obtener, modificar ni redistribuir el c
 
 <br>
 
-Las siguientes opciones solo se aplican a la copia local proporcionada o expresamente autorizada por el titular. Respeta las políticas de seguridad de tu organización.
+Aplica estas opciones únicamente a scripts que hayas revisado y en los que confíes. Respeta las políticas de seguridad de tu organización.
 
 **Permanente (usuario actual):**
 ```powershell
@@ -151,29 +156,29 @@ powershell -ExecutionPolicy Bypass -File .\BraveControl.ps1
 
 - Solo toca claves bajo `HKLM\SOFTWARE\Policies\BraveSoftware\Brave`. **No** modifica otros navegadores ni el sistema.
 - **No** recopila ni transmite ningún dato tuyo.
-- ⚠️ Usa únicamente copias proporcionadas o autorizadas por el titular. La app solicita permisos de **administrador**; confirma su procedencia antes de ejecutarla.
-- La implementación conserva una ruta de descarga remota para la auto-elevación cuando se ejecuta sin archivo local. No se documenta como vía pública de obtención ni concede permiso para distribuir scripts.
+- ⚠️ La app solicita permisos de **administrador**. Verifica la procedencia y revisa el código de cualquier copia, incluidas las modificadas, antes de ejecutarla.
+- Si se ejecuta sin archivo local, la auto-elevación puede descargar el script del repositorio. Prefiere descargarlo, revisarlo y ejecutarlo localmente para saber qué código estás ejecutando.
 
 ---
 
-## 🤝 Sugerencias y desarrollo autorizado
+## 🤝 Colaborar
 
 ¿Una política nueva, un bug, una mejora de UI? Envía tus sugerencias mediante los canales de [DProjects](https://dprojects.org/) o del [autor](https://xdoofy92.com/).
 
-El desarrollo y cualquier instrucción técnica para modificar el proyecto se reservan al titular y a colaboradores **expresamente autorizados por escrito**, dentro del alcance de ese permiso. La visibilidad del repositorio no constituye una concesión pública para modificar, copiar para terceros ni redistribuir su código.
+Puedes abrir una incidencia, crear un fork y proponer cambios mediante un pull request. El código está disponible para estudiar, modificar y redistribuir bajo MIT, sin solicitar autorización adicional. Conserva el aviso de copyright y la licencia en las copias o partes sustanciales del software.
 
 ---
 
 ## 📄 Licencia y distribución
 
-**Daniel Rodriguez (DProjects)** es el titular y desarrollador. Software **propietario y de código cerrado**, bajo la [licencia propietaria de uso gratuito](<LICENSE.txt>):
+**Daniel Rodriguez (DProjects)** es el autor. Software **gratuito y de código abierto**, bajo la [licencia MIT](<LICENSE.txt>):
 
-- Uso gratuito de copias oficiales, también **profesional y empresarial**.
-- No se permite **modificar, vender ni revender** el programa sin autorización previa y por escrito del titular. Ajustar preferencias con las funciones de la app no es modificar el programa.
-- Cualquiera puede redistribuir **gratis únicamente el instalador oficial publicado por DProjects**, completo e intacto, conservando autoría, licencia y avisos de terceros, indicando [la web oficial](https://dprojects.org/) y cumpliendo las demás condiciones de la licencia. No se permite cobrar ni reempaquetarlo.
-- Ese permiso **no incluye scripts sueltos ni código fuente**; requieren autorización previa y por escrito. Siempre puedes compartir el enlace a la web oficial. No se afirma aquí que exista un instalador publicado.
-- Los componentes y marcas de terceros conservan sus licencias, avisos y derechos. La licencia no restringe los permisos propios de esos componentes.
-- Estos términos se aplican a las versiones distribuidas bajo ellos: **no revocan retroactivamente** derechos concedidos legítimamente sobre versiones anteriores bajo otras licencias.
+- Puedes usarlo con fines personales, profesionales y comerciales.
+- Puedes examinar, copiar, modificar, combinar, publicar, distribuir, sublicenciar y vender copias del software.
+- Debes conservar el aviso de copyright y el texto de la licencia en todas las copias o partes sustanciales del software.
+- Se proporciona **«tal cual», sin garantías**, según los términos de MIT.
+- Estos permisos incluyen el script y su código fuente; no se limitan a un instalador ni exigen distribuirlo sin modificaciones.
+- Los componentes y marcas de terceros conservan sus propias licencias y derechos.
 
 ---
 
@@ -187,7 +192,7 @@ El desarrollo y cualquier instrucción técnica para modificar el proyecto se re
 
 <div align="center">
 
-**[Licencia propietaria de uso gratuito](<LICENSE.txt>)** · Hecho por **[Daniel Rodriguez](https://xdoofy92.com/)** · **[DProjects](https://dprojects.org/)**
+**[Licencia MIT](<LICENSE.txt>)** · Hecho por **[Daniel Rodriguez](https://xdoofy92.com/)** · **[DProjects](https://dprojects.org/)**
 
 🔗 [Políticas de Brave (Group Policy)](https://github.com/brave/brave-browser/wiki/Group-Policy) · [Repo de Brave](https://github.com/brave/brave-browser)
 

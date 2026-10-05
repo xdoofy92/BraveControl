@@ -1,125 +1,21 @@
-LICENCIA PROPIETARIA DE USO GRATUITO DE DPROJECTS
-Versión 1.0
+MIT License
 
-Copyright (c) 2026 Daniel Rodriguez (DProjects).
-Todos los derechos reservados.
+Copyright (c) 2026 Daniel Rodriguez (DProjects)
 
-Titular y desarrollador: Daniel Rodriguez.
-Marca del proyecto: DProjects.
-Sitio oficial: https://dprojects.org/
-Sitio del autor: https://xdoofy92.com/
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-1. OBJETO Y TITULARIDAD
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-Esta licencia regula la aplicación de DProjects que acompaña a este documento
-(el "Software"), sus elementos originales y su documentación. El Software es
-propietario y de uso gratuito (freeware); no es software libre ni se ofrece bajo
-una licencia de código abierto. El titular conserva los derechos sobre su código,
-diseño y demás elementos originales. No se transmite la propiedad del Software.
-
-2. PERMISO DE USO GRATUITO
-
-Se concede al usuario una licencia limitada, no exclusiva, gratuita y no
-transferible para descargar, instalar y ejecutar las copias oficiales del Software,
-tanto para fines personales como profesionales o empresariales, conforme a estas
-condiciones. Es una licencia de uso, no una venta, y podrá revocarse por
-incumplimiento conforme a la sección 9 y a la legislación aplicable. Se permiten
-las copias de respaldo necesarias para ese uso.
-
-La condición de no transferible no impide compartir el instalador oficial según
-la sección 3: cada destinatario recibe directamente del titular los permisos de
-esta licencia, sin cesión ni sublicencia del redistribuidor. Utilizar el Software
-en una actividad comercial no autoriza a venderlo, revenderlo ni cobrar por
-facilitar su descarga, copia o licencia.
-
-3. REDISTRIBUCIÓN DEL INSTALADOR OFICIAL
-
-Cualquier persona puede copiar y redistribuir gratuitamente el instalador oficial
-publicado por DProjects, siempre que cumpla todas estas condiciones:
-
-- Entregar el instalador completo, intacto y sin modificar su contenido.
-- Conservar los avisos de autoría, esta licencia y los avisos de terceros que lo
-  acompañen; si la licencia se facilita por separado, incluirla con la copia.
-- Identificar a Daniel Rodriguez (DProjects) como desarrollador e indicar el sitio
-  oficial https://dprojects.org/ en la página o información de distribución.
-- No cobrar por el instalador, su descarga, su entrega o una supuesta licencia de
-  uso, ni venderlo o revenderlo como parte de un paquete de pago.
-- No reempaquetarlo, crear instaladores alternativos, añadir descargadores,
-  publicidad, programas adicionales o modificaciones, ni alterar su firma digital
-  si la incorpora.
-- No presentarse como autor, distribuidor exclusivo o representante del titular,
-  ni dar a entender que existe un respaldo oficial no autorizado.
-
-Esta autorización se limita al instalador oficial. No concede por sí sola permiso
-para redistribuir código fuente, scripts sueltos, binarios extraídos, versiones
-modificadas u otros paquetes. Esos supuestos requieren permiso previo y por escrito
-del titular. Siempre se permite compartir un enlace a la web oficial.
-
-4. RESTRICCIONES
-
-Sin autorización previa y por escrito del titular, no se permite:
-
-- Vender, revender, alquilar, arrendar, sublicenciar o explotar comercialmente la
-  distribución del Software, ni monetizar directa o indirectamente el acceso a
-  su descarga, copia o licencia mediante cobros, suscripciones, enlaces de pago
-  u ofertas que lo incluyan como producto de pago. Esta restricción no prohíbe
-  utilizarlo como herramienta en una actividad profesional o empresarial.
-- Modificar, adaptar, traducir el programa, parchear, transformar o crear obras
-  derivadas de sus elementos originales.
-- Eliminar o alterar marcas, atribuciones, avisos de copyright o de licencia.
-- Descompilar, desensamblar o realizar ingeniería inversa para obtener el código
-  fuente, salvo en la medida que la legislación aplicable lo permita de manera
-  imperativa o lo autorice la licencia de un componente de terceros.
-- Publicar, divulgar, copiar para terceros o redistribuir el código fuente propio
-  sin autorización expresa del titular.
-
-Cambiar preferencias mediante las funciones previstas por el Software no se
-considera una modificación prohibida del programa.
-
-5. CÓDIGO FUENTE Y ACCESO AL REPOSITORIO
-
-El código fuente propio no forma parte de la distribución autorizada al público.
-Su eventual acceso, visibilidad o entrega no concede permiso de modificación,
-publicación, redistribución ni explotación. Las instrucciones de desarrollo o
-compilación se destinan al titular y a colaboradores expresamente autorizados;
-no amplían los permisos de esta licencia.
-
-6. COMPONENTES Y DERECHOS DE TERCEROS
-
-Esta licencia solo alcanza los derechos que pertenecen al titular. Bibliotecas,
-recursos, plataformas, marcas y otros componentes de terceros conservan sus
-respectivas licencias y derechos. Sus avisos y obligaciones deben mantenerse.
-Nada en este documento restringe permisos que una licencia de terceros conceda
-sobre su componente ni sustituye los permisos que deban obtenerse de sus titulares.
-
-7. VERSIONES ANTERIORES
-
-Esta licencia se aplica a las versiones y copias distribuidas bajo ella. No revoca
-ni restringe retroactivamente los derechos válidamente concedidos sobre versiones
-anteriores bajo otras licencias. Tampoco permite relicenciar derechos de terceros
-sin su autorización. Recibir una versión nueva no cambia la licencia de una copia
-anterior obtenida legítimamente bajo otros términos.
-
-8. GARANTÍAS Y RESPONSABILIDAD
-
-En la máxima medida permitida por la legislación aplicable, el Software se ofrece
-"tal cual" y según disponibilidad, sin garantías expresas o implícitas de
-comerciabilidad, idoneidad para un fin concreto, ausencia de errores o continuidad.
-El usuario debe evaluar su idoneidad y realizar copias de seguridad antes de
-operaciones que puedan afectar al sistema o a los datos.
-
-En la máxima medida permitida por la ley, el titular no responde por pérdida de
-datos, interrupciones de actividad ni daños derivados del uso o imposibilidad de
-uso del Software. No se excluyen garantías, responsabilidades ni derechos de los
-consumidores que la legislación aplicable no permita excluir o limitar.
-
-9. INCUMPLIMIENTO Y DERECHOS RESERVADOS
-
-El incumplimiento de estas condiciones puede dar lugar a la terminación de los
-permisos concedidos, conforme a la legislación aplicable. En ese caso deberá cesar
-el uso o distribución no autorizados, sin afectar derechos imperativos ni permisos
-independientes sobre componentes de terceros o versiones anteriores.
-
-Todos los permisos no concedidos expresamente quedan reservados. Para solicitar
-autorizaciones adicionales, utiliza los canales de contacto publicados en
-https://dprojects.org/ o https://xdoofy92.com/.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
