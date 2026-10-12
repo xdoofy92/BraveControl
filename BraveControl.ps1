@@ -26,9 +26,9 @@ Add-Type -AssemblyName System.Windows.Forms, System.Drawing
 
 # ─── Identidad de la app ─────────────────────────────────────────────────────
 $REG_PATH  = "HKLM:\SOFTWARE\Policies\BraveSoftware\Brave"
-$APP_TITLE = "BraveControl - dprojects.org"
 $APP_NAME  = "BraveControl"
-$APP_VER   = "v1.0"
+$APP_VER   = "v1.1"
+$APP_TITLE = "$APP_NAME $APP_VER - dprojects.org"
 $APP_SUB   = "Politicas de Brave via registro"
 $BROWSER   = "Brave"
 
@@ -37,7 +37,6 @@ $BG       = [Drawing.Color]::FromArgb(17, 17, 20)
 $CARD     = [Drawing.Color]::FromArgb(26, 26, 30)
 $CARD2    = [Drawing.Color]::FromArgb(32, 32, 37)
 $HOVER    = [Drawing.Color]::FromArgb(40, 40, 46)
-$GRPBG    = [Drawing.Color]::FromArgb(22, 22, 26)
 $BORDER   = [Drawing.Color]::FromArgb(46, 46, 54)
 $FG       = [Drawing.Color]::FromArgb(232, 232, 236)
 $MUTED    = [Drawing.Color]::FromArgb(140, 140, 150)
@@ -72,31 +71,37 @@ $W_TXT = $X_TOG - $X_TXT - 10
 
 # ─── Caracteristicas (listado unico) ─────────────────────────────────────────
 # Logica: el toggle refleja el estado de la caracteristica.
-#   ON  (verde) = activada (estado normal)        Off = valor "activado" / no configurada
+#   ON  (verde) = activada (estado normal: politica no configurada)
 #   OFF (gris)  = se desactivara al pulsar Aplicar  -> escribe Val en el registro
-# Formato: Nombre = @{ Key; Val=valor desactivado; Opp=valor activado; T=tipo; Desc }
+# Formato: Nombre = @{ Key; Val=valor desactivado; T=tipo; Desc }
+#   KeySet  = @(...)  varias claves para un mismo toggle (la primera decide el estado mostrado)
+#   Careful = $true   opcion sensible (seguridad o datos): "Desact. todo" pregunta antes de incluirla
 $POLICIES = [ordered]@{
-    "Leo (AI Chat)"              = @{ Key = "BraveAIChatEnabled";         Val = 0; Opp = 1; T = "DWord"; Desc = "Asistente de IA Leo integrado" }
-    "Noticias"                   = @{ Key = "BraveNewsDisabled";          Val = 1; Opp = 0; T = "DWord"; Desc = "Feed de noticias Brave News" }
-    "Reproductor"                = @{ Key = "BravePlaylistEnabled";       Val = 0; Opp = 1; T = "DWord"; Desc = "Funcion Playlist" }
-    "Speedreader"                = @{ Key = "BraveSpeedreaderEnabled";    Val = 0; Opp = 1; T = "DWord"; Desc = "Modo de lectura rapida (Speedreader)" }
-    "Wayback Machine"            = @{ Key = "BraveWaybackMachineEnabled"; Val = 0; Opp = 1; T = "DWord"; Desc = "Integracion con Wayback Machine" }
-    "P3A (analisis de producto)" = @{ Key = "BraveP3AEnabled";           Val = 0; Opp = 1; T = "DWord"; Desc = "Telemetria anonima de producto (P3A)" }
-    "Ping de uso diario"         = @{ Key = "BraveStatsPingEnabled";     Val = 0; Opp = 1; T = "DWord"; Desc = "Ping diario de estadisticas de uso" }
-    "Web Discovery Project"      = @{ Key = "BraveWebDiscoveryEnabled";  Val = 0; Opp = 1; T = "DWord"; Desc = "Envio de datos de Web Discovery" }
-    "Brave Rewards"              = @{ Key = "BraveRewardsDisabled";      Val = 1; Opp = 0; T = "DWord"; Desc = "Brave Rewards y los anuncios" }
-    "Wallet + Web3"              = @{ Key = "BraveWalletDisabled";       Val = 1; Opp = 0; T = "DWord"; Desc = "Brave Wallet y las funciones Web3" }
-    "Videollamada"               = @{ Key = "BraveTalkDisabled";         Val = 1; Opp = 0; T = "DWord"; Desc = "Brave Talk (videollamadas)" }
-    "Tor"                        = @{ Key = "TorDisabled";               Val = 1; Opp = 0; T = "DWord"; Desc = "Ventanas privadas con Tor" }
-    "VPN"                        = @{ Key = "BraveVPNDisabled";          Val = 1; Opp = 0; T = "DWord"; Desc = "Brave VPN" }
+    "Leo (AI Chat)"              = @{ Key = "BraveAIChatEnabled";         Val = 0; T = "DWord"; Desc = "Asistente de IA Leo integrado" }
+    "Noticias"                   = @{ Key = "BraveNewsDisabled";          Val = 1; T = "DWord"; Desc = "Feed de noticias Brave News" }
+    "Reproductor"                = @{ Key = "BravePlaylistEnabled";       Val = 0; T = "DWord"; Desc = "Funcion Playlist" }
+    "Speedreader"                = @{ Key = "BraveSpeedreaderEnabled";    Val = 0; T = "DWord"; Desc = "Modo de lectura rapida (Speedreader)" }
+    "Wayback Machine"            = @{ Key = "BraveWaybackMachineEnabled"; Val = 0; T = "DWord"; Desc = "Integracion con Wayback Machine" }
+    "P3A (analisis de producto)" = @{ Key = "BraveP3AEnabled";           Val = 0; T = "DWord"; Desc = "Telemetria anonima de producto (P3A)" }
+    "Ping de uso diario"         = @{ Key = "BraveStatsPingEnabled";     Val = 0; T = "DWord"; Desc = "Ping diario de estadisticas de uso" }
+    "Web Discovery Project"      = @{ Key = "BraveWebDiscoveryEnabled";  Val = 0; T = "DWord"; Desc = "Envio de datos de Web Discovery" }
+    "Brave Rewards"              = @{ Key = "BraveRewardsDisabled";      Val = 1; T = "DWord"; Desc = "Brave Rewards y los anuncios" }
+    "Wallet + Web3"              = @{ Key = "BraveWalletDisabled";       Val = 1; T = "DWord"; Desc = "Brave Wallet y las funciones Web3" }
+    "Videollamada"               = @{ Key = "BraveTalkDisabled";         Val = 1; T = "DWord"; Desc = "Brave Talk (videollamadas)" }
+    "Tor"                        = @{ Key = "TorDisabled";               Val = 1; T = "DWord"; Desc = "Ventanas privadas con Tor" }
+    "VPN"                        = @{ Key = "BraveVPNDisabled";          Val = 1; T = "DWord"; Desc = "Brave VPN" }
     # ── Privacidad generica (politicas Chromium que Brave respeta) ──
-    "Sugerencias de busqueda"    = @{ Key = "SearchSuggestEnabled";       Val = 0; Opp = 1; T = "DWord"; Desc = "Sugerencias al escribir (envian datos al buscador)" }
-    "Gestor de contrasenas"      = @{ Key = "PasswordManagerEnabled";     Val = 0; Opp = 1; T = "DWord"; Desc = "Guardado y autocompletado de contrasenas" }
-    "Autocompletar direcciones"  = @{ Key = "AutofillAddressEnabled";     Val = 0; Opp = 1; T = "DWord"; Desc = "Autocompletado de direcciones y contacto" }
-    "Autocompletar tarjetas"     = @{ Key = "AutofillCreditCardEnabled";  Val = 0; Opp = 1; T = "DWord"; Desc = "Guardado y autocompletado de tarjetas" }
-    "Modo en segundo plano"      = @{ Key = "BackgroundModeEnabled";      Val = 0; Opp = 1; T = "DWord"; Desc = "Brave sigue ejecutandose al cerrar la ventana" }
-    "Prediccion de red (prefetch)" = @{ Key = "NetworkPredictionOptions"; Val = 2; Opp = 0; T = "DWord"; Desc = "Precarga de paginas y resolucion DNS anticipada" }
+    "Sugerencias de busqueda"    = @{ Key = "SearchSuggestEnabled";       Val = 0; T = "DWord"; Desc = "Sugerencias al escribir (envian datos al buscador)" }
+    "Gestor de contrasenas"      = @{ Key = "PasswordManagerEnabled";     Val = 0; T = "DWord"; Desc = "Guardado y autocompletado de contrasenas" }
+    "Autocompletar direcciones"  = @{ Key = "AutofillAddressEnabled";     Val = 0; T = "DWord"; Desc = "Autocompletado de direcciones y contacto" }
+    "Autocompletar tarjetas"     = @{ Key = "AutofillCreditCardEnabled";  Val = 0; T = "DWord"; Desc = "Guardado y autocompletado de tarjetas" }
+    "Modo en segundo plano"      = @{ Key = "BackgroundModeEnabled";      Val = 0; T = "DWord"; Desc = "Brave sigue ejecutandose al cerrar la ventana" }
+    "Prediccion de red (prefetch)" = @{ Key = "NetworkPredictionOptions"; Val = 2; T = "DWord"; Desc = "Precarga de paginas y resolucion DNS anticipada" }
 }
+
+# Claves que escribian versiones anteriores y ya no se gestionan (sin efecto u obsoletas).
+# Se limpian al pulsar Aplicar o Default para no dejar residuos en el registro.
+$LEGACY_KEYS = @()
 
 # ─── Estado en memoria ───────────────────────────────────────────────────────
 $script:state   = [ordered]@{}   # $true = caracteristica activada (toggle ON)
@@ -114,6 +119,64 @@ function Get-PolicyState {
     return $null
 }
 
+# Normaliza una politica a una lista de claves de registro.
+# Soporta el formato simple (Key/Val/T) y el multi-clave (KeySet = @(...)).
+# Nota: el campo se llama KeySet y no "Keys" porque .Keys colisiona con la propiedad
+# nativa de las hashtables (devolveria los nombres de los campos, no el array).
+# La primera clave es la "primaria": determina el estado mostrado en el toggle.
+function Get-PolicyKeys {
+    param($p)
+    # El operador coma (,) evita que PowerShell desenvuelva un array de un solo
+    # elemento al devolverlo (en cuyo caso [0] daria $null en el caso simple).
+    if ($p.Contains('KeySet')) { return ,@($p['KeySet']) }
+    return ,@(@{ Key = $p.Key; Val = $p.Val; T = $p.T })
+}
+
+# Nombres de todos los valores de registro que gestiona (o gestiono) esta app.
+function Get-OwnKeyNames {
+    $names = @($LEGACY_KEYS)
+    foreach ($p in $POLICIES.Values) { $names += (Get-PolicyKeys $p) | ForEach-Object { $_.Key } }
+    return $names
+}
+
+# Cuenta lo que hay bajo $REG_PATH que NO es de esta app (otra herramienta o la organizacion).
+function Get-ForeignCount {
+    try { $k = Get-Item -Path $REG_PATH -ErrorAction Stop } catch { return 0 }
+    $own = @(Get-OwnKeyNames)
+    $n = @($k.GetValueNames() | Where-Object { $_ -and ($own -notcontains $_) }).Count + $k.SubKeyCount
+    $k.Close()
+    return $n
+}
+
+# Borra un valor solo si existe; lanza excepcion si existe y no se puede borrar.
+function Remove-PolicyValue {
+    param([string]$Key)
+    if ($null -ne (Get-PolicyState -Key $Key)) {
+        Remove-ItemProperty -Path $REG_PATH -Name $Key -Force -ErrorAction Stop
+    }
+}
+
+# Si la clave de politicas queda vacia la elimina, para que el navegador no
+# aparezca como "Administrado por su organizacion" sin motivo.
+function Remove-EmptyPolicyKey {
+    try {
+        $k = Get-Item -Path $REG_PATH -ErrorAction Stop
+        $empty = ($k.ValueCount -eq 0 -and $k.SubKeyCount -eq 0)
+        $k.Close()
+        if ($empty) { Remove-Item -Path $REG_PATH -Force -ErrorAction Stop }
+    } catch {}
+}
+
+# $true si algun toggle difiere de lo que hay en el registro (cambios sin aplicar).
+function Test-PendingChanges {
+    foreach ($name in $POLICIES.Keys) {
+        $primary = (Get-PolicyKeys $POLICIES[$name])[0]
+        $regOff = ((Get-PolicyState -Key $primary.Key) -eq $primary.Val)
+        if ($script:state[$name] -eq $regOff) { return $true }
+    }
+    return $false
+}
+
 function Update-Counter {
     $off = ($script:state.Values | Where-Object { -not $_ }).Count
     $script:counter.Text = "$off / $script:total a Desactivar"
@@ -123,8 +186,9 @@ function Update-Counter {
 function Update-CurrentState {
     foreach ($name in $POLICIES.Keys) {
         $p = $POLICIES[$name]
-        $cur = Get-PolicyState -Key $p.Key
-        if ($cur -eq $p.Val) {
+        $primary = (Get-PolicyKeys $p)[0]
+        $cur = Get-PolicyState -Key $primary.Key
+        if ($cur -eq $primary.Val) {
             # Ya esta desactivada en el registro -> toggle OFF
             $script:state[$name] = $false
             $script:labels[$name].ForeColor = $MUTED
@@ -150,18 +214,27 @@ function Set-Policies {
     $disabled = 0; $fail = 0; $reenabled = 0
     foreach ($name in $POLICIES.Keys) {
         $p = $POLICIES[$name]
-        $cur = Get-PolicyState -Key $p.Key
+        $keys = Get-PolicyKeys $p
+        $primary = $keys[0]
+        $cur = Get-PolicyState -Key $primary.Key
         if (-not $script:state[$name]) {
-            # Toggle OFF -> desactivar caracteristica
-            if (-not (Test-Path $REG_PATH)) { New-Item $REG_PATH -Force | Out-Null }
-            try { Set-ItemProperty -Path $REG_PATH -Name $p.Key -Value $p.Val -Type $p.T -Force; $disabled++ }
-            catch { $fail++ }
-        } elseif ($cur -eq $p.Val) {
-            # Toggle ON y estaba desactivada -> reactivar (quitar la politica)
-            try { Remove-ItemProperty -Path $REG_PATH -Name $p.Key -Force -ErrorAction Stop; $reenabled++ }
-            catch { $fail++ }
+            # Toggle OFF -> desactivar caracteristica (todas sus claves)
+            try {
+                if (-not (Test-Path $REG_PATH)) { New-Item $REG_PATH -Force -ErrorAction Stop | Out-Null }
+                foreach ($k in $keys) { Set-ItemProperty -Path $REG_PATH -Name $k.Key -Value $k.Val -Type $k.T -Force -ErrorAction Stop }
+                $disabled++
+            } catch { $fail++ }
+        } elseif ($cur -eq $primary.Val) {
+            # Toggle ON y estaba desactivada -> reactivar (quitar todas sus claves)
+            # Remove-PolicyValue ignora las que no existen (multi-clave) y falla solo si no puede borrar
+            try {
+                foreach ($k in $keys) { Remove-PolicyValue $k.Key }
+                $reenabled++
+            } catch { $fail++ }
         }
     }
+    foreach ($k in $LEGACY_KEYS) { try { Remove-PolicyValue $k } catch { $fail++ } }
+    Remove-EmptyPolicyKey
     return $disabled, $fail, $reenabled
 }
 
@@ -415,9 +488,10 @@ foreach ($name in $POLICIES.Keys) {
     $row.Controls.Add($tog)
     $script:toggles[$name] = $tog
 
+    $keyList = ((Get-PolicyKeys $p) | ForEach-Object { $_.Key }) -join ", "
     $tt = [Windows.Forms.ToolTip]::new()
-    $tt.SetToolTip($lbl,  "Clave: $($p.Key)")
-    $tt.SetToolTip($desc, "Clave: $($p.Key)")
+    $tt.SetToolTip($lbl,  "Clave: $keyList")
+    $tt.SetToolTip($desc, "Clave: $keyList")
 
     # Click -> alternar
     $capture = $name
@@ -452,10 +526,10 @@ foreach ($name in $POLICIES.Keys) {
 
 # ── Botonera ──
 $btnY = 560; $btnH = 36
-$btnDefault   = New-Button "Default"      16  $btnY 92  $btnH
-$btnEnableAll = New-Button "Activar todo"  116 $btnY 92  $btnH
-$btnDisableAll= New-Button "Desact. todo"  216 $btnY 92  $btnH
-$btnApply     = New-Button "Aplicar"       316 $btnY 118 $btnH -Primary
+$btnDefault    = New-Button "Default"      16  $btnY 92  $btnH
+$btnEnableAll  = New-Button "Activar todo"  116 $btnY 92  $btnH
+$btnDisableAll = New-Button "Desact. todo"  216 $btnY 92  $btnH
+$btnApply      = New-Button "Aplicar"       316 $btnY 118 $btnH -Primary
 $form.Controls.AddRange(@($btnDefault, $btnEnableAll, $btnDisableAll, $btnApply))
 
 # ── Barra de estado ──
@@ -483,25 +557,72 @@ $btnEnableAll.Add_Click({
 })
 
 $btnDisableAll.Add_Click({
+    # Las opciones sensibles (Careful) no se apagan en bloque sin preguntar
+    $careful = @($POLICIES.Keys | Where-Object { $POLICIES[$_].Careful })
+    $includeCareful = $true
+    if ($careful.Count -gt 0) {
+        $text = "$($careful.Count) opciones son sensibles (seguridad o datos):`n`n  - " + ($careful -join "`n  - ") +
+                "`n`nSi = desactivarlas tambien`nNo = desactivar todo menos estas`nCancelar = no cambiar nada"
+        $r = [Windows.Forms.MessageBox]::Show($form, $text, $APP_NAME,
+            [Windows.Forms.MessageBoxButtons]::YesNoCancel, [Windows.Forms.MessageBoxIcon]::Warning,
+            [Windows.Forms.MessageBoxDefaultButton]::Button2)
+        if ($r -eq [Windows.Forms.DialogResult]::Cancel) { return }
+        $includeCareful = ($r -eq [Windows.Forms.DialogResult]::Yes)
+    }
     foreach ($n in @($script:state.Keys)) {
+        if (-not $includeCareful -and $POLICIES[$n].Careful) { continue }
         $script:state[$n] = $false
         $script:labels[$n].ForeColor = $MUTED
         $script:toggles[$n].Invalidate()
     }
     Update-Counter
     $script:status.ForeColor = $MUTED
-    $script:status.Text = "Todas marcadas para desactivar."
+    $script:status.Text = if ($includeCareful) { "Todas marcadas para desactivar." }
+                          else { "Marcadas para desactivar (salvo $($careful.Count) sensibles)." }
 })
 
 $btnDefault.Add_Click({
-    # Elimina por completo la clave de politicas de Brave -> vuelve todo a sus
-    # valores predeterminados y Brave deja de aparecer "Administrado por su organizacion".
+    # Elimina las politicas y devuelve el navegador a sus valores predeterminados.
+    # Siempre pide confirmacion. Si bajo la clave hay politicas que no son de esta app
+    # (otra herramienta o una organizacion real), deja elegir entre borrar todo o solo las propias.
+    if (-not (Test-Path $REG_PATH)) {
+        Update-CurrentState
+        $script:status.ForeColor = $MUTED
+        $script:status.Text = "No hay politicas que eliminar."
+        return
+    }
+    $foreign = Get-ForeignCount
+    $all = $true
+    if ($foreign -gt 0) {
+        $text = "Hay $foreign politica(s) de $BROWSER que no ha creado $APP_NAME " +
+                "(otra herramienta o tu organizacion).`n`nSi = eliminar TODAS las politicas de $BROWSER" +
+                "`nNo = eliminar solo las de $APP_NAME`nCancelar = no tocar nada"
+        $r = [Windows.Forms.MessageBox]::Show($form, $text, $APP_NAME,
+            [Windows.Forms.MessageBoxButtons]::YesNoCancel, [Windows.Forms.MessageBoxIcon]::Warning,
+            [Windows.Forms.MessageBoxDefaultButton]::Button2)
+        if ($r -eq [Windows.Forms.DialogResult]::Cancel) { return }
+        $all = ($r -eq [Windows.Forms.DialogResult]::Yes)
+    } else {
+        $text = "Se eliminaran todas las politicas de $BROWSER aplicadas con $APP_NAME " +
+                "y volvera a sus valores predeterminados.`n`nContinuar?"
+        $r = [Windows.Forms.MessageBox]::Show($form, $text, $APP_NAME,
+            [Windows.Forms.MessageBoxButtons]::YesNo, [Windows.Forms.MessageBoxIcon]::Question,
+            [Windows.Forms.MessageBoxDefaultButton]::Button2)
+        if ($r -ne [Windows.Forms.DialogResult]::Yes) { return }
+    }
     try {
-        if (Test-Path $REG_PATH) { Remove-Item $REG_PATH -Recurse -Force -ErrorAction Stop }
+        if ($all) {
+            Remove-Item $REG_PATH -Recurse -Force -ErrorAction Stop
+        } else {
+            foreach ($n in @(Get-OwnKeyNames)) { Remove-PolicyValue $n }
+            Remove-EmptyPolicyKey
+        }
         Update-CurrentState
         $script:status.ForeColor = $GREEN
-        $script:status.Text = "Politicas eliminadas. Reinicia $BROWSER; ya no saldra administrado por su organizacion."
+        $script:status.Text = if ($all) { "Politicas eliminadas. Reinicia $BROWSER; ya no saldra administrado por su organizacion." }
+                              else { "Politicas de $APP_NAME eliminadas; se conservan $foreign ajenas. Reinicia $BROWSER." }
     } catch {
+        Update-CurrentState
         $script:status.ForeColor = $RED
         $script:status.Text = "No se pudieron eliminar las politicas: $($_.Exception.Message)"
     }
@@ -521,4 +642,20 @@ $btnApply.Add_Click({
 # Refresco inicial del scrollbar personalizado una vez mostrado el formulario
 $form.Add_Shown({ Update-VScroll })
 
+# Aviso al cerrar con cambios sin aplicar
+$form.Add_FormClosing({
+    param($s, $e)
+    if (Test-PendingChanges) {
+        $r = [Windows.Forms.MessageBox]::Show($form, "Hay cambios sin aplicar.`n`nSalir sin aplicarlos?", $APP_NAME,
+            [Windows.Forms.MessageBoxButtons]::YesNo, [Windows.Forms.MessageBoxIcon]::Question,
+            [Windows.Forms.MessageBoxDefaultButton]::Button2)
+        if ($r -ne [Windows.Forms.DialogResult]::Yes) { $e.Cancel = $true }
+    }
+})
+
 [void]$form.ShowDialog()
+
+# Si se lanzo via irm | iex, borra la copia temporal que se descargo para la elevacion
+if ($PSCommandPath -and (Split-Path $PSCommandPath -Leaf) -match "^${APP_NAME}_[0-9a-f]{32}\.ps1$") {
+    Remove-Item -LiteralPath $PSCommandPath -Force -ErrorAction SilentlyContinue
+}

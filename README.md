@@ -48,7 +48,7 @@ HKLM:\SOFTWARE\Policies\BraveSoftware\Brave
 |:------|:-------|
 | **Activar todo** | Enciende todos los interruptores (estado por defecto) |
 | **Desact. todo** | Los apaga todos → *debloat completo* en un clic |
-| **Actualizar** | Relee el registro y refresca el estado actual |
+| **Default** | Elimina las políticas (pide confirmación) → Brave deja de salir *administrado por tu organización*. Si hay políticas que no creó la app, deja elegir entre borrarlas todas o solo las propias |
 | **Aplicar** | Guarda los cambios *(reinicia Brave para que surtan efecto)* |
 
 ---
@@ -63,11 +63,11 @@ HKLM:\SOFTWARE\Policies\BraveSoftware\Brave
 |:--------------|:----------|:------------------|
 | 🤖 Leo (AI Chat) | Asistente de IA Leo integrado | `BraveAIChatEnabled` |
 | 📰 Noticias | Feed de noticias Brave News | `BraveNewsDisabled` |
-| 🎵 Lista de reproducción | Función Playlist | `BravePlaylistEnabled` |
-| 📖 Lector rápido | Modo de lectura rápida (Speedreader) | `BraveSpeedreaderEnabled` |
+| 🎵 Reproductor | Función Playlist | `BravePlaylistEnabled` |
+| 📖 Speedreader | Modo de lectura rápida (Speedreader) | `BraveSpeedreaderEnabled` |
 | 🕰️ Wayback Machine | Integración con Wayback Machine | `BraveWaybackMachineEnabled` |
-| 💰 Recompensas + Brave Ads | Brave Rewards y los anuncios | `BraveRewardsDisabled` |
-| 🪙 Monedero + Web3 | Brave Wallet y funciones Web3 | `BraveWalletDisabled` |
+| 💰 Brave Rewards | Brave Rewards y los anuncios | `BraveRewardsDisabled` |
+| 🪙 Wallet + Web3 | Brave Wallet y funciones Web3 | `BraveWalletDisabled` |
 | 📹 Videollamada | Brave Talk | `BraveTalkDisabled` |
 | 🧅 Tor | Ventanas privadas con Tor | `TorDisabled` |
 | 🛡️ VPN | Brave VPN | `BraveVPNDisabled` |
@@ -76,9 +76,9 @@ HKLM:\SOFTWARE\Policies\BraveSoftware\Brave
 
 | Característica | Qué apaga | Clave de registro |
 |:--------------|:----------|:------------------|
-| 📊 P3A | Telemetría anónima de producto | `BraveP3AEnabled` |
+| 📊 P3A (análisis de producto) | Telemetría anónima de producto | `BraveP3AEnabled` |
 | 📡 Ping de uso diario | Ping diario de estadísticas de uso | `BraveStatsPingEnabled` |
-| 🔎 Web Discovery | Envío de datos de Web Discovery | `BraveWebDiscoveryEnabled` |
+| 🔎 Web Discovery Project | Envío de datos de Web Discovery | `BraveWebDiscoveryEnabled` |
 
 ### 🕵️ Privacidad genérica (políticas Chromium que Brave respeta)
 
@@ -148,13 +148,16 @@ powershell -ExecutionPolicy Bypass -File .\BraveControl.ps1
 - **Auto-elevación**: solicita privilegios de administrador automáticamente (necesarios para escribir en `HKLM`).
 - **Interfaz**: Windows Forms con tema oscuro e interruptores dibujados a mano (anti-aliasing).
 - **Tipo de valores**: todas las políticas se aplican como `DWord` (32 bits).
-- **Reversible**: desmarcar y aplicar **elimina** la clave; no deja residuos.
+- **Reversible**: volver a encender y aplicar **elimina** la política; cuando no queda ninguna se borra también la clave, sin dejar residuos.
+- **Avisos**: pide confirmación antes de **Default**, antes de apagar en bloque las opciones sensibles y al cerrar con cambios sin aplicar.
+- **Errores reales**: si una escritura en el registro falla, se cuenta y se muestra en la barra de estado.
 
 ---
 
 ## 🛡️ Seguridad y privacidad
 
 - Solo toca claves bajo `HKLM\SOFTWARE\Policies\BraveSoftware\Brave`. **No** modifica otros navegadores ni el sistema.
+- **Default** no borra a ciegas: si detecta políticas que no creó la app (otra herramienta o tu organización) te deja conservarlas.
 - **No** recopila ni transmite ningún dato tuyo.
 - ⚠️ La app solicita permisos de **administrador**. Verifica la procedencia y revisa el código de cualquier copia, incluidas las modificadas, antes de ejecutarla.
 - Si se ejecuta sin archivo local, la auto-elevación puede descargar el script del repositorio. Prefiere descargarlo, revisarlo y ejecutarlo localmente para saber qué código estás ejecutando.
@@ -185,7 +188,7 @@ Puedes abrir una incidencia, crear un fork y proponer cambios mediante un pull r
 ## 📝 Notas
 
 - 🔄 **Reinicia Brave** tras aplicar para ver los cambios.
-- 🔒 Las políticas **persisten** hasta que las elimines (encender + Aplicar).
+- 🔒 Las políticas **persisten** hasta que las elimines (encender + Aplicar, o el botón **Default**).
 - 🧪 Los nombres de política pueden variar entre versiones de Brave.
 
 ---
