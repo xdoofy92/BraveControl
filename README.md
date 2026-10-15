@@ -17,6 +17,18 @@
 
 ---
 
+## ⚡ Ejecutar desde cualquier equipo
+
+Abre **PowerShell** y pega:
+
+```powershell
+irm https://raw.githubusercontent.com/xdoofy92/BraveControl/main/BraveControl.ps1 | iex
+```
+
+Descarga el script de este repositorio, pide permisos de administrador (UAC) y abre la interfaz. No instala nada. Revisa antes el [código](<BraveControl.ps1>) si quieres saber qué ejecutas.
+
+---
+
 ## ✨ ¿Qué es?
 
 **BraveControl** es una herramienta gráfica de PowerShell que gestiona las **políticas de empresa de Brave** desde el registro de Windows. En lugar de bucear por `regedit`, te presenta una lista de interruptores: **todo viene encendido** (como en una instalación normal) y tú **apagas lo que quieras desactivar**.
